@@ -1,0 +1,12 @@
+.query {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.query textarea {
+    width: 100%;
+    resize: none;
+    height: 142px;
+    margin: 0 0 1rem 0;
+}
