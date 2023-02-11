@@ -46,7 +46,7 @@ A React JS client app for using OpenAI
 ## Running as a Docker container
 To run locally in a Docker container
 
-1. Build the container locally (update <myorg> with any name you want)
+1. Build the container locally (update myorg with any name you want)
 
    ```
    docker build -t <myorg>/aiclient .
