@@ -1,1 +1,1 @@
-export const OPEN_AI_KEY = "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";
+export const OPEN_AI_KEY = "OPEN_AI_KEY";
