@@ -57,3 +57,5 @@ To run locally in a Docker container
    ```
    docker run --rm -d -p 3000:3000/tcp <myorg>/aiclient:latest
    ```
+
+3. Launch a Browser and goto http://localhost:3000
