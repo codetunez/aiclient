@@ -22,6 +22,7 @@ export interface Query {
     result: any;
     errors: any;
     format: string;
+    tokens: number;
 }
 
 export class GptProvider extends React.PureComponent<any> {
@@ -67,14 +68,16 @@ export class GptProvider extends React.PureComponent<any> {
             ms: 0,
             result: null,
             errors: null,
-            format: this.state.currentFormat
+            format: this.state.currentFormat,
+            tokens: 0
         }
 
         const start = Date.now();
         try {
             const res = await this.openai.createCompletion(completionRequest);
             const choice = res.data.choices[0];
-            query.result = (choice.text as string).replace('\n\n', "")
+            query.result = (choice.text as string).replace('\n\n', "");
+            query.tokens = res.data.usage?.total_tokens ?? 0;
         }
         catch (err) {
             query.errors = err;
