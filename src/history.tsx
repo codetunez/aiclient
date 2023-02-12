@@ -23,6 +23,7 @@ export default function History() {
                     <p>{q.queryProfile.model}</p>
                     <p>{q.format}</p>
                     <p>{q.ms}ms</p>
+                    <p>{q.tokens ?? 0} tokens</p>
                 </button>;
             })}
         </div>
