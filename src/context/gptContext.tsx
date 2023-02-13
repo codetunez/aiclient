@@ -138,7 +138,7 @@ export class GptProvider extends React.PureComponent<any> {
         this.defaultQueryProfile.max_tokens = maxTokens;
     }
 
-    clearHistory() {
+    clearHistory = () => {
         localStorage.setItem("gpt_history", JSON.stringify([]));
 
         this.setState({
@@ -146,6 +146,13 @@ export class GptProvider extends React.PureComponent<any> {
             currentQuery: {},
             currentPrompt: {},
         })
+    }
+
+    importHistory = (data: string) => {
+        localStorage.setItem("gpt_history", data);
+        this.setState({
+            queryHistory: JSON.parse(data)
+        });
     }
 
     state: any = {
@@ -157,6 +164,7 @@ export class GptProvider extends React.PureComponent<any> {
         executeQuery: this.executeQuery,
         setCurrentQuery: this.setCurrentQuery,
         clearHistory: this.clearHistory,
+        importHistory: this.importHistory,
         currentQuery: {},
         currentPrompt: "",
         currentModel: "",

@@ -1,6 +1,8 @@
 import './history.css';
 import React from 'react';
 import { Query, GptContext } from './context/gptContext';
+import { ExportHistory } from './components/exportHistory';
+import { ImportHistory } from './components/importHistory';
 
 export default function History() {
 
@@ -12,7 +14,11 @@ export default function History() {
 
     return <div className="history">
         <div>
-            {history.length === 0 ? <span>Ho history</span> : null}
+            <div>
+            {history.length > 0 && <ExportHistory data={history} />}
+            <ImportHistory />
+            </div>
+            {history.length === 0 ? <span>No history</span> : <></>}
 
             {history.map((element: any) => {
                 const q: Query = element;
