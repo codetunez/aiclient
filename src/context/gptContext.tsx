@@ -25,7 +25,6 @@ export interface Query {
     tokens: number;
 }
 
-// GptProvider
 export class GptProvider extends React.PureComponent<any> {
 
     private configuration = new Configuration({ apiKey: OPEN_AI_KEY });
