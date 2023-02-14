@@ -28,7 +28,7 @@ export function ImportHistory(data: any) {
           <div>
             <button
               className="button-primary"
-              onClick={() => gptContext.importHistory(importData)}
+              onClick={() => { gptContext.importHistory(importData); setImporting(false); }}
             >
               Import
             </button>

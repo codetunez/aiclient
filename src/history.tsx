@@ -13,13 +13,8 @@ export default function History() {
     }, [gptContext.queryHistory])
 
     return <div className="history">
-        <div>
-            <div>
-            {history.length > 0 && <ExportHistory data={history} />}
-            <ImportHistory />
-            </div>
+        <div id="list">
             {history.length === 0 ? <span>No history</span> : <></>}
-
             {history.map((element: any) => {
                 const q: Query = element;
                 return <button key={q.date} className="history-item" onClick={() => { gptContext.setCurrentQuery(q) }}>
@@ -33,7 +28,9 @@ export default function History() {
                 </button>;
             })}
         </div>
-        <div>
+        <div id="actions">
+        {history.length > 0 && <ExportHistory data={history} />}
+            <ImportHistory />
             <button onClick={() => gptContext.clearHistory()}>Clear History</button>
         </div>
     </div>

@@ -144,7 +144,7 @@ export class GptProvider extends React.PureComponent<any> {
         this.setState({
             queryHistory: [],
             currentQuery: {},
-            currentPrompt: {},
+            currentPrompt: "",
         })
     }
 
