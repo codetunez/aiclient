@@ -14,7 +14,7 @@ export function GenerateReport(data: any) {
     "openAI_prompt_history_" + dateLabel + ".html"
   );
 
-  const handleDownload = () => {
+  const handleReport = () => {
     const blob = new Blob([generateReport()], {
       type: "Text/plain;charset=UTF-8",
     });
@@ -72,7 +72,7 @@ export function GenerateReport(data: any) {
         value={fileName}
         onChange={(e) => setFileName(e.target.value)}
       />
-      <button onClick={handleDownload}>Report</button>
+      <button onClick={handleReport}>Report</button>
     </div>
   );
 }

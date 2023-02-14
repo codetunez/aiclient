@@ -14,7 +14,7 @@ export function ExportHistory(data: any) {
     "aiclient_history_" + dateLabel + ".json"
   );
 
-  const handleDownload = () => {
+  const handleExport = () => {
     const json = JSON.stringify(data.data);
     const blob = new Blob([json], { type: "application/json" });
     const link = document.createElement("a");
@@ -31,7 +31,7 @@ export function ExportHistory(data: any) {
         value={fileName}
         onChange={(e) => setFileName(e.target.value)}
       />
-      <button onClick={handleDownload}>export</button>
+      <button onClick={handleExport}>export</button>
     </>
   );
 }
