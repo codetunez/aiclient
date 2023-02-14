@@ -7,8 +7,8 @@ import { OPEN_AI_KEY } from '../../config';
 
 
 export class OpenAIApiAdapter implements IApiAdapter {
-    private configuration = new Configuration({ apiKey: OPEN_AI_KEY });
-    private openai = new OpenAIApi(this.configuration);
+    private configuration: Configuration = new Configuration({ apiKey: OPEN_AI_KEY });
+    private openai: OpenAIApi = new OpenAIApi(this.configuration);
 
     async completions(queryProfile: IQueryProfile): Promise<IQuery> {
         const query: IQuery = {

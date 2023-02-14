@@ -1,7 +1,4 @@
 import * as React from 'react';
-import axios from 'axios';
-
-import { OPEN_AI_KEY } from '../config';
 import { OpenAIApiAdapter } from '../core/apiAdapters/OpenAIApiAdapter';
 import { IApiAdapter } from '../core/apiAdapters/IApiAdapter';
 
