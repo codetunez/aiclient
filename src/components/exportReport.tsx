@@ -44,7 +44,7 @@ export function GenerateReport(data: any) {
     div.prompt, div.result 
     { resize: none; padding:10px; white-space: pre-wrap; border: rgb(209, 209, 209) solid 1px; height:150px; background:rgb(241, 241, 241);} 
     div.details {padding:10px; } 
-    div.result { font-family:monospace; margin-top:0; border-top-left-radius:0; border-top-right-radius: 0; } 
+    div.result { font-family:monospace; margin-top:0; border-top-left-radius:0; border-top-right-radius: 0; overflow-y: auto; } 
     div.prompt { font-family:monospace; margin-bottom:0; border-bottom-left-radius:0; border-bottom-right-radius: 0; }
     </style>`;
     html += data.data.map((q: IQuery, index: number) => {
