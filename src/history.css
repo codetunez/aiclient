@@ -7,7 +7,7 @@
 }
 
 .history #list {
-    height: calc(100vh - 220px);
+    height: calc(100vh - 260px);
     overflow-y: auto;
     overflow-x:hidden;
 }

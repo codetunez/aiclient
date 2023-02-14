@@ -3,6 +3,7 @@ import React from 'react';
 import { Query, GptContext } from './context/gptContext';
 import { ExportHistory } from './components/exportHistory';
 import { ImportHistory } from './components/importHistory';
+import { GenerateReport } from './components/exportReport';
 
 export default function History() {
 
@@ -29,8 +30,9 @@ export default function History() {
             })}
         </div>
         <div id="actions">
-        {history.length > 0 && <ExportHistory data={history} />}
+            {history.length > 0 && <ExportHistory data={history} />}
             <ImportHistory />
+            {history.length > 0 && <GenerateReport data={history} />}
             <button onClick={() => gptContext.clearHistory()}>Clear History</button>
         </div>
     </div>
