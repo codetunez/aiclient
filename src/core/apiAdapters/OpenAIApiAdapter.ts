@@ -10,6 +10,10 @@ export class OpenAIApiAdapter implements IApiAdapter {
     private configuration: Configuration = new Configuration({ apiKey: OPEN_AI_KEY });
     private openai: OpenAIApi = new OpenAIApi(this.configuration);
 
+    name(): string {
+        return "Public Api";
+    }
+
     async completions(queryProfile: IQueryProfile): Promise<IQuery> {
         const query: IQuery = {
             id: uuidv4(),
@@ -19,7 +23,8 @@ export class OpenAIApiAdapter implements IApiAdapter {
             result: null,
             errors: null,
             format: "text",
-            tokens: 0
+            tokens: 0,
+            api: this.name()
         }
 
         const start = Date.now();

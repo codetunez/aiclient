@@ -10,6 +10,10 @@ export class PowerAppsApiAdapter extends OpenAIApiAdapter {
     private configuration2 = new Configuration({ basePath:"https://openai-powerapps.openai.azure.com/openai/deployments/davinci",  });
     private openai2 = new OpenAIApi(this.configuration2);
    
+    name(): string {
+        return "Power Apps Api";
+    }
+
     async completions(queryProfile: IQueryProfile): Promise<IQuery> {
         const query: IQuery = {
             id: uuidv4(),
@@ -19,7 +23,8 @@ export class PowerAppsApiAdapter extends OpenAIApiAdapter {
             result: null,
             errors: null,
             format: "text",
-            tokens: 0
+            tokens: 0,
+            api: this.name()
         }
 
         const start = Date.now();

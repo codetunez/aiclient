@@ -9,4 +9,5 @@ export default interface IQuery {
     errors: any;
     format: string;
     tokens: number;
+    api: string;
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Query } from "../context/gptContext";
+import IQuery from "../core/entities/IQuery";
 
 export function GenerateReport(data: any) {
   const currentDate = new Date();
@@ -47,7 +47,7 @@ export function GenerateReport(data: any) {
     div.result { font-family:monospace; margin-top:0; border-top-left-radius:0; border-top-right-radius: 0; } 
     div.prompt { font-family:monospace; margin-bottom:0; border-bottom-left-radius:0; border-bottom-right-radius: 0; }
     </style>`;
-    html += data.data.map((q: Query, index: number) => {
+    html += data.data.map((q: IQuery, index: number) => {
       return `<div class="queryContainer">
       <h2>${index + 1} - ${q.queryProfile.prompt.substring(0, 40)}</h2>
         <div><div class="prompt">${q.queryProfile.prompt}</div></div>

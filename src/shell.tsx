@@ -16,14 +16,22 @@ import PuffLoader from "react-spinners/PuffLoader";
 function Shell() {
 
   const gptContext: any = React.useContext(GptContext);
-  const [models, setModels] = React.useState([])
+  const [models, setModels] = React.useState([]);
+  const [apis, setApis] = React.useState([]);
 
   React.useEffect(() => {
     const items = gptContext.models && gptContext.models.map((element: any) => {
       return { name: element.id, value: element.id }
     })
     setModels(items);
-  }, [gptContext.models])
+  }, [gptContext.models]);
+
+  React.useEffect(() => {
+    const items = gptContext.apis && gptContext.apis.map((element: any) => {
+      return { name: element, value: element }
+    })
+    setApis(items);
+  }, [gptContext.apis]);
 
   return <div className="shell">
 
@@ -49,6 +57,7 @@ function Shell() {
           <h3>Prompt</h3>
           <div className='btn-bar'>
             <button className='button-primary' onClick={() => gptContext.newQuery()}>New</button>
+            <Combo items={apis} value={gptContext.currentApi} onChange={(e: any) => { gptContext.setCurrentApi(e.target.value) }} />
             <Combo items={models} value={gptContext.currentModel} onChange={(e: any) => { gptContext.setCurrentModel(e.target.value) }} />
           </div>
         </div>
