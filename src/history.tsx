@@ -1,6 +1,9 @@
 import './history.css';
 import React from 'react';
 import { Query, GptContext } from './context/gptContext';
+import { ExportHistory } from './components/exportHistory';
+import { ImportHistory } from './components/importHistory';
+import { GenerateReport } from './components/exportReport';
 
 export default function History() {
 
@@ -11,9 +14,8 @@ export default function History() {
     }, [gptContext.queryHistory])
 
     return <div className="history">
-        <div>
-            {history.length === 0 ? <span>Ho history</span> : null}
-
+        <div id="list">
+            {history.length === 0 ? <span>No history</span> : <></>}
             {history.map((element: any) => {
                 const q: Query = element;
                 return <button key={q.date} className="history-item" onClick={() => { gptContext.setCurrentQuery(q) }}>
@@ -27,7 +29,10 @@ export default function History() {
                 </button>;
             })}
         </div>
-        <div>
+        <div id="actions">
+            {history.length > 0 && <ExportHistory data={history} />}
+            <ImportHistory />
+            {history.length > 0 && <GenerateReport data={history} />}
             <button onClick={() => gptContext.clearHistory()}>Clear History</button>
         </div>
     </div>

@@ -1,1 +1,1 @@
-export const OPEN_AI_KEY = "<OpenAI developer key";
+export const OPEN_AI_KEY = "OPEN_AI_KEY";
