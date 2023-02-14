@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Configuration, OpenAIApi } from "openai";
 import { POWERAPPS_SECRET } from '../../config';
 import { OpenAIApiAdapter } from "./OpenAIApiAdapter";
+import { estimateCost } from "../entities/costGenerator";
 
 export class PowerAppsApiAdapter extends OpenAIApiAdapter {
     private configuration2 = new Configuration({ basePath:"https://openai-powerapps.openai.azure.com/openai/deployments/davinci",  });
@@ -24,6 +25,7 @@ export class PowerAppsApiAdapter extends OpenAIApiAdapter {
             errors: null,
             format: "text",
             tokens: 0,
+            cost: 0,
             api: this.name()
         }
 
@@ -34,6 +36,7 @@ export class PowerAppsApiAdapter extends OpenAIApiAdapter {
             const choice = res.data.choices[0];
             query.result = (choice.text as string).replace('\n\n', "");
             query.tokens = res.data.usage?.total_tokens ?? 0;
+            query.cost = estimateCost(query.tokens, res.data.model);
         }
         catch (err) {
             console.error('OpenAIApiAdapter::completions', err);
