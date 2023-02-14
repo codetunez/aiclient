@@ -1,9 +1,10 @@
 import './history.css';
 import React from 'react';
-import { Query, GptContext } from './context/gptContext';
+import { GptContext } from './context/gptContext';
 import { ExportHistory } from './components/exportHistory';
 import { ImportHistory } from './components/importHistory';
 import { GenerateReport } from './components/exportReport';
+import IQuery from './core/entities/IQuery';
 
 export default function History() {
 
@@ -17,9 +18,10 @@ export default function History() {
         <div id="list">
             {history.length === 0 ? <span>No history</span> : <></>}
             {history.map((element: any) => {
-                const q: Query = element;
+                const q: IQuery = element;
                 return <button key={q.date} className="history-item" onClick={() => { gptContext.setCurrentQuery(q) }}>
                     <p>{q.queryProfile.prompt}</p>
+                    <p>{q.api}</p>
                     <p>{q.date}</p>
                     <p>{q.result ? <span className="ok">OK</span> : <span className="error">ERROR</span>}</p>
                     <p>{q.queryProfile.model}</p>

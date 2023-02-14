@@ -5,4 +5,5 @@ export interface IApiAdapter {
 
     completions(queryProfile: IQueryProfile): Promise<IQuery>; 
     models(): Promise<any>;
+    name(): string;
 }
