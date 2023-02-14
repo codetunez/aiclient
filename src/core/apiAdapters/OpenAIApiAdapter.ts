@@ -51,6 +51,7 @@ export class OpenAIApiAdapter implements IApiAdapter {
         }
         catch (err) {
             console.error('OpenAIApiAdapter::models', err);
+            throw err;
         }
     }
     
