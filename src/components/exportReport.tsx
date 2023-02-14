@@ -59,6 +59,7 @@ export function GenerateReport(data: any) {
             ${q.queryProfile.model} (${q.format})<br/>
             ${q.ms}ms<br/>
             ${q.tokens} tokens<br/>
+            ${q.cost}<br/>
         </div></div><hr />`;
     });
     html += "</body></html>";

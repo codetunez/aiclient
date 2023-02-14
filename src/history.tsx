@@ -28,6 +28,7 @@ export default function History() {
                     <p>{q.format}</p>
                     <p>{q.ms}ms</p>
                     <p>{q.tokens ?? 0} tokens</p>
+                    <p>${q.cost ?? 0}</p>
                 </button>;
             })}
         </div>
