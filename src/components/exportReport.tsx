@@ -54,6 +54,7 @@ export function GenerateReport(data: any) {
         <h5>Response:</h5>
         <div><div class="result">${q.result}</div></div>
         <div class="details">
+        ${q.api}<br/>
         ${q.date}<br/>
             ${q.queryProfile.model} (${q.format})<br/>
             ${q.ms}ms<br/>
