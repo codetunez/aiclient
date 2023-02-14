@@ -5,7 +5,6 @@ import { OPEN_AI_KEY } from '../config';
 
 export const FineTunesContext = React.createContext({});
 
-// asd asdf
 export class FineTunesProvider extends React.PureComponent<any> {
 
     constructor(props: any) {
