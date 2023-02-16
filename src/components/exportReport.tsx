@@ -50,7 +50,6 @@ export function GenerateReport(data: any) {
     <script>
     function copy(id) {
       var txt = document.getElementById(id).innerHTML;
-      console.log(txt);
       navigator.clipboard.writeText(txt);
     }</script>`;
     html += data.data.map((q: IQuery, index: number) => {
