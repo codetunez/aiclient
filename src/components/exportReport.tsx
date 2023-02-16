@@ -45,14 +45,24 @@ export function GenerateReport(data: any) {
     { resize: none; padding:10px; white-space: pre-wrap; border: rgb(209, 209, 209) solid 1px; height:150px; background:rgb(241, 241, 241);} 
     div.details {padding:10px; } 
     div.result { font-family:monospace; margin-top:0; border-top-left-radius:0; border-top-right-radius: 0; overflow-y: auto; } 
-    div.prompt { font-family:monospace; margin-bottom:0; border-bottom-left-radius:0; border-bottom-right-radius: 0; }
-    </style>`;
+    div.prompt { font-family:monospace; margin-bottom:0; border-bottom-left-radius:0; border-bottom-right-radius: 0; overflow-y: auto;  }
+    </style>
+    <script>
+    function copy(id) {
+      var txt = document.getElementById(id).innerHTML;
+      console.log(txt);
+      navigator.clipboard.writeText(txt);
+    }</script>`;
     html += data.data.map((q: IQuery, index: number) => {
       return `<div class="queryContainer">
       <h2>${index + 1} - ${q.queryProfile.prompt.substring(0, 40)}</h2>
-        <div><div class="prompt">${q.queryProfile.prompt}</div></div>
+        <div>
+        <div class="prompt" id="prompt-${q.id}">${q.queryProfile.prompt}</div></div>
+        <div><a href="#" onclick="copy('prompt-${q.id}'); return false;">copy prompt</a></div>
         <h5>Response:</h5>
-        <div><div class="result">${q.result}</div></div>
+        <div>
+        <div class="result" id="result-${q.id}">${q.result}</div></div>
+        <div><a href="#" onclick="copy('result-${q.id}'); return false;">copy result</a></div>
         <div class="details">
         ${q.api}<br/>
         ${q.date}<br/>
