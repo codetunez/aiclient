@@ -9,17 +9,22 @@ import { FineTunesProvider } from './context/fineTunesContext';
 
 import './index.css';
 
-import Shell from './shell';
-import ShellFinetunes from './shellFinetunes';
+import Prompts from './pages/prompts/prompts';
+import FineTunes from './pages/fineTunes/fineTunes';
+import ApiKeys from './pages/apiKeys/apiKeys';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <GptProvider><Shell /></GptProvider>
+    element: <GptProvider><Prompts /></GptProvider>
   },
   {
     path: "finetunes",
-    element: <FineTunesProvider><ShellFinetunes /></FineTunesProvider>
+    element: <FineTunesProvider><FineTunes /></FineTunesProvider>
+  },
+  {
+    path: "apikeys",
+    element: <GptProvider><ApiKeys /></GptProvider>
   }
 ]
 );

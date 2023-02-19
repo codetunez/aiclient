@@ -1,9 +1,10 @@
+import './modal.css';
+
 import React from 'react';
 import { createPortal } from 'react-dom';
 
-
-const modalRoot = document.getElementById("modal-root") as HTMLElement;
 // assuming in your html file has a div with id 'modal-root';
+const modalRoot = document.getElementById("modal-root") as HTMLElement;
 
 export default class Modal extends React.Component<{ children?: React.ReactNode }> {
   el: HTMLElement = document.createElement("div");

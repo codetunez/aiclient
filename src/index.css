@@ -12,38 +12,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-.ok {
-  color: green;
-}
-
-.error {
-  color: red;
-}
-
-.warning {
-  color: orange;
-}
-
-.select {
-  margin: 0;
-}
-
-h1, h2, h3, h4, h5 {
-  margin: 0;
-}
-
-#modal-root>div:first-child {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: black;
-  height: 100%;
-  width: 100%;
-  opacity: 0.3;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-}

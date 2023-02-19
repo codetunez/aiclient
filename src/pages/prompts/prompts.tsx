@@ -1,19 +1,21 @@
-import './shell.css';
+import '../../core/ui/base.css';
+import './prompts.css';
 
 import React from 'react';
-import { Link } from "react-router-dom";
 
-import { GptContext } from './context/gptContext';
-import { Combo } from "./ui";
+import { GptContext } from '../../context/gptContext';
+import { Combo } from "../../core/ui/controls";
 
 import Results from './results';
 import QueryInput from './queryInput';
 import History from './history';
-import Modal from './modal';
+import Modal from '../../core/ui/modal';
 
 import PuffLoader from "react-spinners/PuffLoader";
 
-function Shell() {
+import Header from '../../core/ui/header';
+
+export default function Prompts() {
 
   const gptContext: any = React.useContext(GptContext);
   const [models, setModels] = React.useState([]);
@@ -38,11 +40,9 @@ function Shell() {
     {gptContext.error ? <Modal><h2>{gptContext.error}</h2></Modal> : null}
     {gptContext.loading ? <Modal><h2>{gptContext.currentModel !== '' ? "asking..." : "asking for models"}</h2><br /><PuffLoader color="#fff" /></Modal> : null}
 
-    <div className="app-bar">
-      <Link to="/"><b>Prompts</b></Link> | <Link to="finetunes">Fine-Tunes</Link>
-    </div>
+    <div className="header-bar"><Header/></div>
 
-    <div className="app">
+    <div className="prompts">
       <div className="panel panel-history">
         <div className="panel-header"><h3>History</h3></div>
         <div className="panel-content">
@@ -72,5 +72,3 @@ function Shell() {
 
   </div>;
 }
-
-export default Shell;

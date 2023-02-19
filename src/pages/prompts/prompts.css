@@ -1,0 +1,33 @@
+/* prompts */
+
+.prompts {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    height: calc(100% - 35px);
+}
+
+.prompts .panel-history {
+    min-width: 192px;
+    max-width: 192px;
+    overflow-y: hidden;
+}
+
+.prompts .panel-gpt {
+    width: 100%;
+    overflow-y: auto;
+}
+
+.prompts .panel-gpt .panel-header {
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 551px) {
+    .prompts .panel-history {
+        display: none;
+    }
+
+    .prompts .panel-gpt .panel-header .btn-bar .select {
+        width: 200px;
+    }
+}

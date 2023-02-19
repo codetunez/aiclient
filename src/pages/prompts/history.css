@@ -1,23 +1,22 @@
-.history {    
+.history {
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.history #actions {
-    padding-top:10px;
-}
-
-.history #list {
-    height: calc(100vh - 260px);
+.history .list {
     overflow-y: auto;
-    overflow-x:hidden;
-}
-.history>div:nth-child(2) button {
-    margin: 0;
+    height: calc(100% - 175px);
 }
 
 .history button {
-    max-width: 150px;
-    min-width: 150px;
+    width: 100%;
+    margin-bottom: 2px;;
+}
+
+.history button:last-child {
+    margin-bottom: 0;
 }
 
 .history .history-item {
@@ -27,7 +26,6 @@
     height: auto;
     border: 1px solid #D1D1D1;
     text-transform: none;
-    
 }
 
 .history .history-item p {
