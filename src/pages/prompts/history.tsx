@@ -32,7 +32,7 @@ export default function History() {
                 </button>;
             })}
         </div>
-        <div>
+        <div className="actions">
             {history.length > 0 && <ExportHistory data={history} />}
             <ImportHistory />
             {history.length > 0 && <GenerateReport data={history} />}

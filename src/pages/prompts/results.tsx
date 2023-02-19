@@ -39,6 +39,13 @@ export default function Results() {
                 value={gptContext.currentQuery?.result || ''}
             />
         </div>
-        <Combo items={languageOptions} value={gptContext.currentFormat} onChange={(e: any) => { gptContext.setCurrentFormat(e.target.value) }} />
+
+        <div className="panel-toolbar">
+            <div className='btn-bar'></div>
+            <div className='btn-bar'>
+                <div>Format</div>
+                <Combo items={languageOptions} value={gptContext.currentFormat} onChange={(e: any) => { gptContext.setCurrentFormat(e.target.value) }} />
+            </div>
+        </div>
     </div>
 }
