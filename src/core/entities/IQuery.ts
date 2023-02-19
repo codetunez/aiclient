@@ -11,4 +11,6 @@ export default interface IQuery {
     tokens: number;
     cost: number | string;
     api: string;
+    temperature?: number;
+    maxTokens?: number;
 }
