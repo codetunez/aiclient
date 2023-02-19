@@ -13,15 +13,15 @@ apiMappings.set("Power Apps Api", new PowerAppsApiAdapter());
 
 export class GptProvider extends React.PureComponent<any> {
 
-    private defaultQueryProfile: IQueryProfile = { "prompt": "", "model": "text-davinci-003", "temperature": 0, "max_tokens": 1000 }
-    
+    private defaultQueryProfile: IQueryProfile = { "prompt": "", "model": "text-davinci-003", "temperature": 0, "max_tokens": 2048 }
+
     constructor(props: any) {
         super(props)
         const payload: any = localStorage.getItem("gpt_history");
         const apiAdapter: IApiAdapter = new OpenAIApiAdapter();
 
         apiAdapter.models().then(res => {
-            this.setState({ currentModel: "text-davinci-003", loading: false, models: res, queryHistory: JSON.parse(payload || "[]"), apis: ["Public Api","Power Apps Api"], currentApi: "Public Api" });
+            this.setState({ currentModel: this.defaultQueryProfile.model, loading: false, models: res, queryHistory: JSON.parse(payload || "[]"), apis: ["Public Api", "Power Apps Api"], currentApi: "Public Api" });
         }).catch((err: any) => {
             this.setState({ loading: false, error: "failed to load models. check API key" })
         });
@@ -30,23 +30,31 @@ export class GptProvider extends React.PureComponent<any> {
     newQuery = () => {
         this.setState({
             currentPrompt: "",
-            currentModel: "text-davinci-003",
+            currentModel: this.defaultQueryProfile.model,
             currentApi: "Public Api",
             currentFormat: "text",
+            currentTemperature: this.defaultQueryProfile.temperature,
+            currentMaxTokens: this.defaultQueryProfile.max_tokens,
             currentQuery: {}
         });
     }
 
     executeQuery = async () => {
 
-        const key:string = this.state.currentApi;
+        const key: string = this.state.currentApi;
         const apiAdapter: IApiAdapter = apiMappings.get(key); //new OpenAIApiAdapter();
 
         this.setState({ loading: true });
 
         // set up the initial query
-        const completionRequest = Object.assign({}, this.defaultQueryProfile, { prompt: this.state.currentPrompt }, { model: this.state.currentModel });
-        
+        const completionRequest = Object.assign({}, this.defaultQueryProfile,
+            {
+                prompt: this.state.currentPrompt,
+                model: this.state.currentModel,
+                temperature: this.state.currentTemperature,
+                max_tokens: this.state.currentMaxTokens
+            });
+
         const query = await apiAdapter.completions(completionRequest);
 
         const newHistory = this.state.queryHistory.slice();
@@ -67,6 +75,14 @@ export class GptProvider extends React.PureComponent<any> {
 
     setCurrentModel = (model: string) => {
         this.setState({ currentModel: model });
+    }
+
+    setCurrentTemperature = (temperature: string) => {
+        this.setState({ currentTemperature: parseFloat(temperature) });
+    }
+
+    setMaxTokens = (maxTokens: string) => {
+        this.setState({ currentMaxTokens: parseInt(maxTokens) });
     }
 
     setCurrentApi = (api: string) => {
@@ -96,14 +112,8 @@ export class GptProvider extends React.PureComponent<any> {
             currentModel: query.queryProfile.model,
             currentFormat: query.format,
             currentApi: query.api ?? "Public Api",
-            currentQuery: Object.assign({}, query)
+            currentQuery: Object.assign({}, query),
         });
-    }
-
-    setQueryProfile(model: string, temperature: number, maxTokens: number) {
-        this.defaultQueryProfile.model = model;
-        this.defaultQueryProfile.temperature = temperature;
-        this.defaultQueryProfile.max_tokens = maxTokens;
     }
 
     clearHistory = () => {
@@ -129,6 +139,8 @@ export class GptProvider extends React.PureComponent<any> {
         newQuery: this.newQuery,
         setCurrentPrompt: this.setCurrentPrompt,
         setCurrentModel: this.setCurrentModel,
+        setCurrentTemperature: this.setCurrentTemperature,
+        setMaxTokens: this.setMaxTokens,
         setCurrentApi: this.setCurrentApi,
         setCurrentFormat: this.setCurrentFormat,
         executeQuery: this.executeQuery,
@@ -137,9 +149,11 @@ export class GptProvider extends React.PureComponent<any> {
         importHistory: this.importHistory,
         currentQuery: {},
         currentPrompt: "",
-        currentModel: "",
+        currentModel: this.defaultQueryProfile.model,
         currentApi: "",
         currentFormat: "text",
+        currentTemperature: this.defaultQueryProfile.temperature,
+        currentMaxTokens: this.defaultQueryProfile.max_tokens,
         queryHistory: [],
         loading: true
     }

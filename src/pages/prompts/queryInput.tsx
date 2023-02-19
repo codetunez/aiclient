@@ -21,6 +21,10 @@ export default function QueryInput() {
             <div className='btn-bar'>
                 <div>Model</div>
                 <Combo items={models} value={gptContext.currentModel} onChange={(e: any) => { gptContext.setCurrentModel(e.target.value) }} />
+                <div>Temperature</div>
+                <input type="number" min={0} max={1000} maxLength={4} name="currentTemperature" value={gptContext.currentTemperature} onChange={(e: any) => { gptContext.setCurrentTemperature(e.target.value) }} />
+                <div>Max tokens</div>
+                <input type="number" min={0} max={2048} maxLength={4} name="currentMaxTokens" value={gptContext.currentMaxTokens} onChange={(e: any) => { gptContext.setMaxTokens(e.target.value) }} />
             </div>
             <div className='btn-bar'>
                 <button className='button-primary' onClick={() => gptContext.executeQuery()}>Complete</button>
