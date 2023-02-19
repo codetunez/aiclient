@@ -1,10 +1,10 @@
 import './history.css';
 import React from 'react';
-import { GptContext } from './context/gptContext';
-import { ExportHistory } from './components/exportHistory';
-import { ImportHistory } from './components/importHistory';
-import { GenerateReport } from './components/exportReport';
-import IQuery from './core/entities/IQuery';
+import { GptContext } from '../../context/gptContext';
+import { ExportHistory } from '../../components/exportHistory';
+import { ImportHistory } from '../../components/importHistory';
+import { GenerateReport } from '../../components/exportReport';
+import IQuery from '../../core/entities/IQuery';
 
 export default function History() {
 
@@ -15,7 +15,7 @@ export default function History() {
     }, [gptContext.queryHistory])
 
     return <div className="history">
-        <div id="list">
+        <div className="list">
             {history.length === 0 ? <span>No history</span> : <></>}
             {history.map((element: any) => {
                 const q: IQuery = element;
@@ -32,7 +32,7 @@ export default function History() {
                 </button>;
             })}
         </div>
-        <div id="actions">
+        <div>
             {history.length > 0 && <ExportHistory data={history} />}
             <ImportHistory />
             {history.length > 0 && <GenerateReport data={history} />}

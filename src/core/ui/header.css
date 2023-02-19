@@ -1,0 +1,24 @@
+.header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header .items {
+    display: flex;
+    align-items: center;
+}
+
+.header .items .selected {
+    font-weight: 700;
+}
+
+.header .items span {
+    margin: 0 1rem;
+    color: #1EAEDB;
+}
+
+.header .items a {
+    text-decoration: none;
+}

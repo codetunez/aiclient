@@ -2,8 +2,8 @@ import './results.css';
 import React from 'react';
 import Editor from "@monaco-editor/react";
 
-import { GptContext } from './context/gptContext';
-import { Combo } from "./ui";
+import { GptContext } from '../../context/gptContext';
+import { Combo } from "../../core/ui/controls";
 
 const languageOptions = [
     { name: "Text", value: "text" },

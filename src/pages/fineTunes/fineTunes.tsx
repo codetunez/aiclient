@@ -1,13 +1,14 @@
-import './shell.css';
+import '../../core/ui/base.css';
+import './fineTunes.css';
 
 import React, { useEffect, useCallback, useState } from 'react';
 import { useRef } from 'react';
-import { Link } from "react-router-dom";
-import { Select, Combo } from "./ui";
+import { Select, Combo } from "../../core/ui/controls";
 
-import { FineTunesContext } from './context/fineTunesContext';
-import Modal from './modal';
+import { FineTunesContext } from '../../context/fineTunesContext';
+import Modal from '../../core/ui/modal';
 import PuffLoader from "react-spinners/PuffLoader";
+import Header from '../../core/ui/header';
 
 const models = [
     { name: "ada", value: "ada" },
@@ -16,7 +17,7 @@ const models = [
     { name: "babbage", value: "babbage" }
 ]
 
-export default function ShellFinetunes() {
+export default function FineTunes() {
 
     const fileId = useRef(null);
     const [model, setModel] = useState(models[0].value);
@@ -65,12 +66,9 @@ export default function ShellFinetunes() {
 
         {fineTunesContext.loading ? <Modal><h2>{fineTunesContext.currentModel !== '' ? "processing..." : "asking for models"}</h2><br /><PuffLoader color="#fff" /></Modal> : null}
 
+        <div className="header-bar"><Header/></div>
 
-        <div className="app-bar">
-            <Link to="/">Prompts</Link> | <Link to="/finetunes"><b>Fine-Tunes</b></Link>
-        </div>
-
-        <div className="ft">
+        <div className="fine-tunes">
             <h3>JSONL</h3>
 
             <div className="ft-jsol-data">

@@ -31,7 +31,7 @@ export function ExportHistory(data: any) {
         value={fileName}
         onChange={(e) => setFileName(e.target.value)}
       />
-      <button onClick={handleExport}>export</button>
+      <button onClick={handleExport}>Export</button>
     </>
   );
 }

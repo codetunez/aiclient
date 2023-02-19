@@ -76,7 +76,7 @@ export function GenerateReport(data: any) {
   };
 
   return (
-    <div>
+    <>
       <input
         type="hidden"
         placeholder="Enter file name"
@@ -84,6 +84,6 @@ export function GenerateReport(data: any) {
         onChange={(e) => setFileName(e.target.value)}
       />
       <button onClick={handleReport}>Report</button>
-    </div>
+    </>
   );
 }

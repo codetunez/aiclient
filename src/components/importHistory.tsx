@@ -1,7 +1,7 @@
 import './importHistory.css';
 import { useState } from "react";
 import { useGptContext } from "../hooks/useGptContext";
-import Modal from "../modal";
+import Modal from "../core/ui/modal";
 
 export function ImportHistory(data: any) {
   const gptContext: any = useGptContext();
@@ -46,7 +46,7 @@ export function ImportHistory(data: any) {
 
   return (
     <>
-      <button onClick={handleImport}>import</button>
+      <button onClick={handleImport}>Import</button>
       {importing && renderModal()}
     </>
   );

@@ -2,7 +2,7 @@ import './queryInput.css';
 import React from 'react';
 import { CSSProperties } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
-import { GptContext } from './context/gptContext';
+import { GptContext } from '../../context/gptContext';
 
 export default function QueryInput() {
 
