@@ -45,38 +45,29 @@ h1, h2, h3, h4, h5 {
     overflow: hidden;
 }
 
-.panel .panel-header {
+.panel .panel-toolbar {
     height: 48px;
     flex-shrink: 0;
     margin: 0 0 0.5rem 1rem;
     padding-right: 1rem;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel .panel-toolbar .btn-bar {
+    display: flex;
+    align-items: center;
     justify-content: center;
-    align-items: center;
-}
-
-.panel .panel-content {
-    flex-grow: 1;
-}
-
-.panel .panel-content-inner {
-    display: flex;
-    flex-direction: column;
-    padding: 0 1rem 1rem 1rem;
-    height: calc(100% - 10px);
-}
-
-.panel .panel-header .btn-bar {
-    display: flex;
-    align-items: center;
 }
 
 
-.panel .panel-header .btn-bar * {
+.panel .panel-toolbar .btn-bar * {
     margin-bottom: 0;
     margin-right: 0.75rem;
+    white-space: nowrap;
 }
 
-.panel .panel-header .btn-bar *:last-child {
+.panel .panel-toolbar .btn-bar *:last-child {
     margin-right: 0;
 }

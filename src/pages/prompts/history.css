@@ -1,18 +1,22 @@
 .history {
-    height: 100%;
+    height: calc(100% - 60px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding: 0 1rem 1rem 1rem;
 }
 
 .history .list {
     overflow-y: auto;
-    height: calc(100% - 175px);
+}
+
+.history .actions {
+    padding-top: 1rem;
 }
 
 .history button {
     width: 100%;
-    margin-bottom: 2px;;
+    margin-bottom: 2px;
 }
 
 .history button:last-child {

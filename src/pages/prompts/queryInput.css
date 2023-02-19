@@ -1,7 +1,7 @@
 .query {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    padding: 0 1rem 0 1rem;
 }
 
 .query textarea {
@@ -9,4 +9,21 @@
     resize: none;
     height: 142px;
     margin: 0 0 1rem 0;
+}
+
+@media screen and (max-width: 551px) {
+    .query .panel-toolbar .btn-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .query .panel-toolbar .btn-bar * {
+        width: 100%;
+    }
+
+    .query .panel-toolbar {
+        height: auto;
+        align-items: flex-end;
+        margin-left: 0;
+    }
 }
