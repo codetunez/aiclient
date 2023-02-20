@@ -3,20 +3,18 @@ import { Configuration, OpenAIApi } from "openai";
 import { v4 as uuidv4 } from 'uuid';
 import IQuery from "../entities/IQuery";
 import IQueryProfile from "../entities/IQueryProfile";
-import { OPEN_AI_KEY } from '../../config';
 import { estimateCost, estimateImageCost } from "../entities/costGenerator";
 import IImageQuery from "../entities/IImageQuery";
 import IImageQueryProfile from "../entities/IImageQueryProfile";
+import { OPENAI } from "../../config";
 
 export class OpenAIApiAdapter implements IApiAdapter {
-    private configuration: Configuration = new Configuration({ apiKey: OPEN_AI_KEY });
-    private openai: OpenAIApi = new OpenAIApi(this.configuration);
 
-    name(): string {
-        return "Public Api";
-    }
+    async completions(queryProfile: IQueryProfile, key: string): Promise<IQuery> {
 
-    async completions(queryProfile: IQueryProfile): Promise<IQuery> {
+        const configuration: Configuration = new Configuration({ apiKey: key });
+        const openai: OpenAIApi = new OpenAIApi(configuration);
+
         const query: IQuery = {
             id: uuidv4(),
             queryProfile,
@@ -27,13 +25,13 @@ export class OpenAIApiAdapter implements IApiAdapter {
             format: "text",
             tokens: 0,
             cost: 0,
-            api: this.name()
+            api: OPENAI
         }
 
         const start = Date.now();
 
         try {
-            const res = await this.openai.createCompletion(queryProfile);
+            const res = await openai.createCompletion(queryProfile);
             const choice = res.data.choices[0];
             query.result = (choice.text as string).replace('\n\n', "");
             query.tokens = res.data.usage?.total_tokens ?? 0;
@@ -50,10 +48,12 @@ export class OpenAIApiAdapter implements IApiAdapter {
         return query;
     }
 
-    async models(): Promise<any> {
+    async models(key: string): Promise<any> {
+        const configuration: Configuration = new Configuration({ apiKey: key });
+        const openai: OpenAIApi = new OpenAIApi(configuration);
 
         try {
-            const res = await this.openai.listModels();
+            const res = await openai.listModels();
             return res.data.data.sort((a, b) => {
                 return a.id > b.id ? 1 : -1;
             });
@@ -64,7 +64,11 @@ export class OpenAIApiAdapter implements IApiAdapter {
         }
     }
 
-    async completionsImages(queryProfile: IImageQueryProfile): Promise<IImageQuery> {
+    async completionsImages(queryProfile: IImageQueryProfile, key: string): Promise<IImageQuery> {
+
+        const configuration: Configuration = new Configuration({ apiKey: key });
+        const openai: OpenAIApi = new OpenAIApi(configuration);
+
         const query: IImageQuery = {
             id: uuidv4(),
             queryProfile,
@@ -73,13 +77,13 @@ export class OpenAIApiAdapter implements IApiAdapter {
             result: [],
             errors: null,
             cost: 0,
-            api: this.name()
+            api: OPENAI
         }
 
         const start = Date.now();
 
         try {
-            const res: any = await this.openai.createImage(queryProfile);
+            const res: any = await openai.createImage(queryProfile);
             query.result = res.data.data;
             query.cost = estimateImageCost(query.queryProfile.size, query.queryProfile.n);
         }

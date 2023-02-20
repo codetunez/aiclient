@@ -1,16 +1,10 @@
 import * as React from 'react';
-import { OpenAIApiAdapter } from '../core/apiAdapters/OpenAIApiAdapter';
+
 import { IApiAdapter } from '../core/apiAdapters/IApiAdapter';
 import IQueryProfile from '../core/entities/IQueryProfile';
 import IQuery from '../core/entities/IQuery';
-import { PowerAppsApiAdapter } from '../core/apiAdapters/PowerAppsApiAdapter';
 
 export const GptContext = React.createContext({});
-
-// TODO: this will be refactored as part of API Keys screen
-const apiMappings = new Map();
-apiMappings.set("Public Api", new OpenAIApiAdapter());
-apiMappings.set("Power Apps Api", new PowerAppsApiAdapter());
 
 export class GptProvider extends React.PureComponent<any> {
 
@@ -19,20 +13,12 @@ export class GptProvider extends React.PureComponent<any> {
     constructor(props: any) {
         super(props)
         const payload: any = localStorage.getItem("gpt_history");
-        const apiAdapter: IApiAdapter = new OpenAIApiAdapter();
-
-        apiAdapter.models().then(res => {
-            this.setState({ loading: false, models: res, queryHistory: JSON.parse(payload || "[]"), apis: ["Public Api", "Power Apps Api"], currentApi: "Public Api" });
-        }).catch((err: any) => {
-            this.setState({ loading: false, error: "Failed to load models. Check API key" })
-        });
+        this.state = Object.assign({}, this.state, { loading: false, queryHistory: JSON.parse(payload || "[]") });
     }
 
     newQuery = (options?: any) => {
-
         const state = Object.assign({}, {
             currentPrompt: "",
-            currentApi: "Public Api",
             currentFormat: "text",
             currentModel: this.defaultQueryProfile.model,
             currentTemperature: this.defaultQueryProfile.temperature,
@@ -44,14 +30,19 @@ export class GptProvider extends React.PureComponent<any> {
         this.setState(state);
     }
 
-    executeQuery = async () => {
-
-        const key: string = this.state.currentApi;
-        const apiAdapter: IApiAdapter = apiMappings.get(key); //new OpenAIApiAdapter();
-
+    fetchModels = async (apiAdapter: IApiAdapter, key: string) => {
         this.setState({ loading: true });
 
-        // set up the initial query
+        apiAdapter.models(key).then(res => {
+            this.setState({ loading: false, models: res });
+        }).catch((err: any) => {
+            this.setState({ loading: false, error: "Failed to load models. Check API key" })
+        });
+    }
+
+    executeQuery = async (apiAdapter: IApiAdapter, key: string) => {
+        this.setState({ loading: true });
+
         const completionRequest = Object.assign({}, this.defaultQueryProfile,
             {
                 prompt: this.state.currentPrompt,
@@ -60,7 +51,7 @@ export class GptProvider extends React.PureComponent<any> {
                 max_tokens: this.state.currentMaxTokens
             });
 
-        const query = await apiAdapter.completions(completionRequest);
+        const query = await apiAdapter.completions(completionRequest, key);
 
         const newHistory = this.state.queryHistory.slice();
         newHistory.push(query);
@@ -90,8 +81,8 @@ export class GptProvider extends React.PureComponent<any> {
         this.setState({ currentMaxTokens: parseInt(maxTokens) });
     }
 
-    setCurrentApi = (api: string) => {
-        this.setState({ currentApi: api });
+    setError = (message: string) => {
+        this.setState({ error: message });
     }
 
     setCurrentFormat = (format: string) => {
@@ -116,7 +107,6 @@ export class GptProvider extends React.PureComponent<any> {
             currentPrompt: query.queryProfile.prompt,
             currentModel: query.queryProfile.model,
             currentFormat: query.format,
-            currentApi: query.api ?? "Public Api",
             currentQuery: Object.assign({}, query),
         });
     }
@@ -140,22 +130,21 @@ export class GptProvider extends React.PureComponent<any> {
 
     state: any = {
         models: [],
-        apis: [],
         newQuery: this.newQuery,
         setCurrentPrompt: this.setCurrentPrompt,
         setCurrentModel: this.setCurrentModel,
         setCurrentTemperature: this.setCurrentTemperature,
         setMaxTokens: this.setMaxTokens,
-        setCurrentApi: this.setCurrentApi,
+        setError: this.setError,
         setCurrentFormat: this.setCurrentFormat,
         executeQuery: this.executeQuery,
         setCurrentQuery: this.setCurrentQuery,
         clearHistory: this.clearHistory,
         importHistory: this.importHistory,
+        fetchModels: this.fetchModels,
         currentQuery: {},
         currentPrompt: "",
         currentModel: this.defaultQueryProfile.model,
-        currentApi: "",
         currentFormat: "text",
         currentTemperature: this.defaultQueryProfile.temperature,
         currentMaxTokens: this.defaultQueryProfile.max_tokens,

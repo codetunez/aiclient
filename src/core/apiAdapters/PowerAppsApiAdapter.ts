@@ -1,22 +1,20 @@
+import { IApiAdapter } from "./IApiAdapter";
 import IQuery from "../entities/IQuery";
 import IQueryProfile from "../entities/IQueryProfile";
 import { v4 as uuidv4 } from 'uuid';
 import { Configuration, OpenAIApi } from "openai";
-import { POWERAPPS_SECRET } from '../../config';
-import { OpenAIApiAdapter } from "./OpenAIApiAdapter";
 import { estimateCost, estimateImageCost } from "../entities/costGenerator";
 import IImageQuery from "../entities/IImageQuery";
 import IImageQueryProfile from "../entities/IImageQueryProfile";
+import { AZURE } from "../../config";
 
-export class PowerAppsApiAdapter extends OpenAIApiAdapter {
-    private configuration2 = new Configuration({ basePath:"https://openai-powerapps.openai.azure.com/openai/deployments/davinci",  });
-    private openai2 = new OpenAIApi(this.configuration2);
+export class PowerAppsApiAdapter implements IApiAdapter {
 
-    name(): string {
-        return "Power Apps Api";
-    }
+    async completions(queryProfile: IQueryProfile, key: string): Promise<IQuery> {
 
-    async completions(queryProfile: IQueryProfile): Promise<IQuery> {
+        const configuration = new Configuration({ basePath: "https://openai-powerapps.openai.azure.com/openai/deployments/davinci", });
+        const openai = new OpenAIApi(configuration);
+
         const query: IQuery = {
             id: uuidv4(),
             queryProfile,
@@ -27,13 +25,13 @@ export class PowerAppsApiAdapter extends OpenAIApiAdapter {
             format: "text",
             tokens: 0,
             cost: 0,
-            api: this.name()
+            api: AZURE
         }
 
         const start = Date.now();
 
         try {
-            const res = await this.openai2.createCompletion(queryProfile, {params:{'api-version': '2022-12-01'}, headers:{'api-key':POWERAPPS_SECRET}});
+            const res = await openai.createCompletion(queryProfile, { params: { 'api-version': '2022-12-01' }, headers: { 'api-key': key } });
             const choice = res.data.choices[0];
             query.result = (choice.text as string).replace('\n\n', "");
             query.tokens = res.data.usage?.total_tokens ?? 0;
@@ -50,7 +48,15 @@ export class PowerAppsApiAdapter extends OpenAIApiAdapter {
         return query;
     }
 
-    async completionsImages(queryProfile: IImageQueryProfile): Promise<IImageQuery> {
+    async models(key: string): Promise<any> {
+        throw new Error('Not implemented');
+    }
+    
+    async completionsImages(queryProfile: IImageQueryProfile, key: string): Promise<IImageQuery> {
+
+        const configuration = new Configuration({ basePath: "https://openai-powerapps.openai.azure.com/openai/deployments/davinci", });
+        const openai = new OpenAIApi(configuration);
+
         const query: IImageQuery = {
             id: uuidv4(),
             queryProfile,
@@ -59,13 +65,13 @@ export class PowerAppsApiAdapter extends OpenAIApiAdapter {
             result: [],
             errors: null,
             cost: 0,
-            api: this.name()
+            api: AZURE
         }
 
         const start = Date.now();
 
         try {
-            const res = await this.openai2.createImage(queryProfile, { params: { 'api-version': '2022-12-01' }, headers: { 'api-key': POWERAPPS_SECRET } });
+            const res = await openai.createImage(queryProfile, { params: { 'api-version': '2022-12-01' }, headers: { 'api-key': key } });
             query.result = res.data.data;
             query.cost = estimateImageCost(query.queryProfile.size, query.queryProfile.n);
         }

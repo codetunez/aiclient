@@ -1,11 +1,14 @@
 import './queryInput.css';
 import React from 'react';
-import { GptContext } from '../../context/gptContext';
 import { Combo } from "../../core/ui/controls";
+
+import { useGptQuery } from '../../hooks/useGptQuery';
+import { useGptContext } from '../../hooks/useGptContext';
 
 export default function QueryInput() {
 
-    const gptContext: any = React.useContext(GptContext);
+    const gptContext: any = useGptContext();
+    const [executeQuery,,] = useGptQuery();
     const [models, setModels] = React.useState([]);
 
     React.useEffect(() => {
@@ -27,7 +30,7 @@ export default function QueryInput() {
                 <input type="number" min={0} max={2048} maxLength={4} name="currentMaxTokens" value={gptContext.currentMaxTokens} onChange={(e: any) => { gptContext.setMaxTokens(e.target.value) }} />
             </div>
             <div className='btn-bar'>
-                <button className='button-primary' onClick={() => gptContext.executeQuery()}>Complete</button>
+                <button className='button-primary' onClick={() => executeQuery()}>Complete</button>
             </div>
         </div>
     </div>

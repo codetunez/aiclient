@@ -3,4 +3,45 @@
 .api-keys {
     padding: 0 1rem 1rem 1rem;
     height: calc(100% - 46px);
+    overflow-y: auto;
+}
+
+.api-keys .block:not(:first-child) {
+    margin-top: 4rem;
+}
+
+.api-keys .block .radio-group {
+    display: flex;
+    align-items: center;
+    line-height: 38px;
+    margin-bottom: 1.5rem;
+}
+
+.api-keys .block .radio-group input[type="radio"] {
+    margin: 0 0.25rem 0 0;
+    cursor: pointer;    
+}
+
+.api-keys .block .radio-group span {
+    margin: 0 1.5rem 0 0;
+}
+
+.api-keys .delete-form {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.api-keys .delete-form input,
+.api-keys .delete-form button {
+    margin-bottom: 0;
+}
+
+.api-keys .delete-form:not(:last-child) {
+    margin-bottom: 4px;
+}
+
+.api-keys .delete-form *:not(:last-child) {
+    margin-right: 4px;
+    width: 20%;
 }

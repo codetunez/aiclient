@@ -2,6 +2,7 @@ import './queryInput.css';
 import React from 'react';
 import { ImageContext } from '../../context/imageContext';
 import { Combo } from "../../core/ui/controls";
+import { useGptQuery } from '../../hooks/useGptQuery';
 
 const imageSizes = [
     { name: "256x256", value: "256x256" },
@@ -17,6 +18,7 @@ const imageType = [
 export default function QueryInput() {
 
     const imageContext: any = React.useContext(ImageContext);
+    const [, executeImageQuery,] = useGptQuery();
 
     return <div className="query">
         <textarea placeholder='What AI image to generate?' name="query" value={imageContext.currentPrompt || ''} onChange={(e: any) => { imageContext.setCurrentPrompt(e.target.value) }}></textarea>
@@ -30,7 +32,7 @@ export default function QueryInput() {
                 <Combo items={imageType} value={imageContext.currentFormat} onChange={(e: any) => { imageContext.setCurrentFormat(e.target.value) }} />
             </div>
             <div className='btn-bar'>
-                <button className='button-primary' onClick={() => imageContext.executeQuery()}>Complete</button>
+                <button className='button-primary' onClick={() => executeImageQuery()}>Complete</button>
             </div>
         </div>
     </div>
