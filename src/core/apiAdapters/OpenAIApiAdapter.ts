@@ -4,8 +4,9 @@ import { v4 as uuidv4 } from 'uuid';
 import IQuery from "../entities/IQuery";
 import IQueryProfile from "../entities/IQueryProfile";
 import { OPEN_AI_KEY } from '../../config';
-import { estimateCost } from "../entities/costGenerator";
-
+import { estimateCost, estimateImageCost } from "../entities/costGenerator";
+import IImageQuery from "../entities/IImageQuery";
+import IImageQueryProfile from "../entities/IImageQueryProfile";
 
 export class OpenAIApiAdapter implements IApiAdapter {
     private configuration: Configuration = new Configuration({ apiKey: OPEN_AI_KEY });
@@ -62,5 +63,34 @@ export class OpenAIApiAdapter implements IApiAdapter {
             throw err;
         }
     }
-    
+
+    async completionsImages(queryProfile: IImageQueryProfile): Promise<IImageQuery> {
+        const query: IImageQuery = {
+            id: uuidv4(),
+            queryProfile,
+            date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
+            ms: 0,
+            result: [],
+            errors: null,
+            cost: 0,
+            api: this.name()
+        }
+
+        const start = Date.now();
+
+        try {
+            const res: any = await this.openai.createImage(queryProfile);
+            query.result = res.data.data;
+            query.cost = estimateImageCost(query.queryProfile.size, query.queryProfile.n);
+        }
+        catch (err) {
+            console.error('OpenAIApiAdapter::completionsImage', err);
+            query.errors = err;
+        }
+        finally {
+            query.ms = Date.now() - start;
+        }
+
+        return query;
+    }
 }
