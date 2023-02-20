@@ -30,7 +30,7 @@ export default function Prompts() {
   return <div className="shell">
 
     {gptContext.error ? <Modal><h2>{gptContext.error}</h2></Modal> : null}
-    {gptContext.loading ? <Modal><h2>{gptContext.currentModel !== '' ? "asking..." : "asking for models"}</h2><br /><PuffLoader color="#fff" /></Modal> : null}
+    {gptContext.loading ? <Modal><h2>{gptContext.currentModel !== '' ? "Asking..." : "Asking for models"}</h2><br /><PuffLoader color="#fff" /></Modal> : null}
 
     <div className="header-bar"><Header /></div>
 

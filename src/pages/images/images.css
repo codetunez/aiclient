@@ -1,0 +1,23 @@
+/* images */
+
+.images {
+    display: flex;
+    flex-direction: row;
+    height: calc(100% - 35px);
+}
+
+.images .images-history {
+    min-width: 192px;
+    max-width: 192px;
+    overflow-y: hidden;
+}
+
+.images .images-gpt {
+    width: 100%;
+}
+
+@media screen and (max-width: 551px) {
+    .images .images-history {
+        display: none;
+    }
+}

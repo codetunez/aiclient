@@ -4,7 +4,8 @@ import React from 'react';
 import { Link, useLocation } from "react-router-dom";
 
 const leftItems = [
-    { name: "Prompts", path: "/" },
+    { name: "Text Prompts", path: "/" },
+    { name: "Image Prompts", path: "/images" },
     { name: "Fine-Tunes", path: "/finetunes" }
 ]
 
