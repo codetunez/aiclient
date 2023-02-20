@@ -20,7 +20,7 @@ export class FineTunesProvider extends React.PureComponent<any> {
                 this.setState({ files: files.data, fineTunes: res.data.data, loading: false })
             })
             .catch((err: any) => {
-                this.setState({ loading: false, error: "Check API key" })
+                this.setState({ loading: false, error: "Failed to load files or fine-tunes. Check API key" })
             })
     }
 

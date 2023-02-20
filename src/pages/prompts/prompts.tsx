@@ -5,6 +5,7 @@ import React from 'react';
 
 import { GptContext } from '../../context/gptContext';
 import { Combo } from "../../core/ui/controls";
+import { Link } from "react-router-dom";
 
 import Results from './results';
 import QueryInput from './queryInput';
@@ -29,7 +30,7 @@ export default function Prompts() {
 
   return <div className="shell">
 
-    {gptContext.error ? <Modal><h2>{gptContext.error}</h2></Modal> : null}
+    {gptContext.error ? <Modal><h2>{gptContext.error}</h2><Link to="/apikeys">Click here to setup API Keys</Link></Modal> : null}
     {gptContext.loading ? <Modal><h2>{gptContext.currentModel !== '' ? "Asking..." : "Asking for models"}</h2><br /><PuffLoader color="#fff" /></Modal> : null}
 
     <div className="header-bar"><Header /></div>

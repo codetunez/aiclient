@@ -6,6 +6,7 @@ import { GptContext } from '../../context/gptContext';
 import { ImageContext } from '../../context/imageContext';
 
 import { Combo } from "../../core/ui/controls";
+import { Link } from "react-router-dom";
 
 import Results from './results';
 import QueryInput from './queryInput';
@@ -32,7 +33,7 @@ export default function Images() {
 
     return <div className="shell">
 
-        {imageContext.error ? <Modal><h2>{imageContext.error}</h2></Modal> : null}
+        {gptContext.error ? <Modal><h2>{gptContext.error}</h2><Link to="/apikeys">Click here to setup API Keys</Link></Modal> : null}
         {imageContext.loading ? <Modal><h2>{imageContext.currentModel !== '' ? "Asking..." : "Asking for models"}</h2><br /><PuffLoader color="#fff" /></Modal> : null}
 
         <div className="header-bar"><Header /></div>

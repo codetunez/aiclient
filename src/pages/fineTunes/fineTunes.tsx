@@ -4,6 +4,7 @@ import './fineTunes.css';
 import React, { useEffect, useCallback, useState } from 'react';
 import { useRef } from 'react';
 import { Select, Combo } from "../../core/ui/controls";
+import { Link } from "react-router-dom";
 
 import { FineTunesContext } from '../../context/fineTunesContext';
 import Modal from '../../core/ui/modal';
@@ -64,9 +65,10 @@ export default function FineTunes() {
 
     return <div className="shell">
 
-        {fineTunesContext.loading ? <Modal><h2>{fineTunesContext.currentModel !== '' ? "processing..." : "asking for models"}</h2><br /><PuffLoader color="#fff" /></Modal> : null}
+        {fineTunesContext.error ? <Modal><h2>{fineTunesContext.error}</h2><Link to="/apikeys">Click here to setup API Keys</Link></Modal> : null}
+        {fineTunesContext.loading ? <Modal><h2>{fineTunesContext.currentModel !== '' ? "Processing..." : "Asking for models"}</h2><br /><PuffLoader color="#fff" /></Modal> : null}
 
-        <div className="header-bar"><Header/></div>
+        <div className="header-bar"><Header /></div>
 
         <div className="fine-tunes">
             <h3>JSONL</h3>
