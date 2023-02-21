@@ -60,14 +60,18 @@ API keys can be provided in code and will override any added through the UX wher
         default: true,
         name: "Open AI #1",
         key: "sk-7fh398fhd959dl295kf34kfzdsjfk32jfk25ddnndf445344",
-        service: "openai"
+        service: "openai",
+        instance: null
    }]
    ```
 
    Properties
 
-   **default** Set to true to use the API Key as the default API. One must be set or will be automatically selected\
-   **name** A friendly name for the API Key\
-   **key** The secret key from OpenAI or Azure\
-   **service** The service for the API key. Can only be _azure_ or _openai_
+   | Param       | Type    | Description |   
+   |-------------|---------|------------------------------------------------------------------------------------------------------|
+   | **default** | Boolean | Set to true to use the API Key as the default API. One must be set or will be automatically selected |
+   | **name**    | String  | A friendly name for the API Key |   
+   | **key**     | String  | The secret key from OpenAI or Azure |
+   | **service** | String  | The service for the API key. Only valid values are **azure** or **openai** |
+   | **instance**| String  | If using the Azure API service, an instance name is required. This can be obtained from the deployed model e.g. https://__instance__.openai.azure.com/openai/deployments/davinci. If using the OpenAI service, this should be set to null|
 

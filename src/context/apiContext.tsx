@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ApiKey, ApiKeys } from '../config';
+import { ApiKey, ApiKeys, AZURE, OPENAI } from '../config';
 
 export const ApiContext = React.createContext({});
 
@@ -21,9 +21,9 @@ export class ApiProvider extends React.PureComponent<any> {
         this.state = Object.assign({}, this.state, { apis: items, defaultApi: api, currentApiName: api?.name, configOverrides: ApiKeys.length > 0 ? true : false });
     }
 
-    addApiKey = (name: string, key: string, service: 'openai' | 'azure', defaultService: boolean) => {
+    addApiKey = (name: string, key: string, service: typeof OPENAI | typeof AZURE, defaultService: boolean, instance: string) => {
         let newState: Array<ApiKey> = this.state.apis.slice();
-        newState.push({ name, key, service, default: defaultService })
+        newState.push({ name, key, service, default: defaultService, instance })
         const api = this.setDefault(newState, defaultService ? newState.length - 1 : -1);
         localStorage.setItem("gpt_apis", JSON.stringify(newState));
         this.setState({ apis: newState, defaultApi: api || {} })
