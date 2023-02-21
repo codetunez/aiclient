@@ -36,7 +36,7 @@ export default function Images() {
 
     return <div className="shell">
 
-        {gptContext.error ? <Modal><h2>{gptContext.error}</h2><Link to="/apikeys">Click here to setup API Keys</Link></Modal> : null}
+        {gptContext.error ? <Modal><h2>{gptContext.error}</h2><Link to="/apikeys">Click here to see API keys and profiles</Link></Modal> : null}
         {imageContext.loading ? <Modal><h2>{imageContext.currentModel !== '' ? "Asking..." : "Asking for models"}</h2><br /><PuffLoader color="#fff" /></Modal> : null}
 
         <div className="header-bar"><Header /></div>

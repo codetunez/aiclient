@@ -33,15 +33,16 @@ export const useGptQuery = () => {
     throw new Error("ImageContext was null");
   }
 
-  // This will do with initializing the list of model sdepending on which API has been set as default
+  // This will deal with initializing the list of models depending on which API has been set as default
   React.useEffect(() => {
     const apiKey: ApiKey = apiContext.getCurrentApiKey();
     if (apiKey) {
       const adapter: IApiAdapter = adapters.get(apiKey.service);
       gptContext.fetchModels(adapter, apiKey.key, apiKey.modelUrl);
     } else {
-      gptContext.setError("Failed to load models. Check API key")
+      gptContext.setError("Failed to load models. Check API profile")
     }
+    // eslint-disable-next-line
   }, [apiContext.currentApiKeyName])
 
   // This will combine the API key, service and a Text Prompt execution

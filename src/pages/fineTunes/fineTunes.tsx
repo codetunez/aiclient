@@ -6,12 +6,12 @@ import { useRef } from 'react';
 import { Select, Combo } from "../../core/ui/controls";
 import { Link } from "react-router-dom";
 
-import { FineTunesContext } from '../../context/fineTunesContext';
 import Modal from '../../core/ui/modal';
 import PuffLoader from "react-spinners/PuffLoader";
 import Header from '../../core/ui/header';
 
 import { ApiContext } from '../../context/apiContext';
+import { useGptFineTune } from '../../hooks/useGptFineTune';
 
 const models = [
     { name: "ada", value: "ada" },
@@ -24,7 +24,9 @@ export default function FineTunes() {
 
     const fileId = useRef(null);
     const [model, setModel] = useState(models[0].value);
-    const fineTunesContext: any = React.useContext(FineTunesContext);
+
+    const [fineTunesContext] = useGptFineTune();
+
     const apiContext: any = React.useContext(ApiContext);
     const [apis, setApis] = React.useState([]);
 
@@ -76,7 +78,7 @@ export default function FineTunes() {
 
     return <div className="shell">
 
-        {fineTunesContext.error ? <Modal><h2>{fineTunesContext.error}</h2><Link to="/apikeys">Click here to setup API Keys</Link></Modal> : null}
+        {fineTunesContext.error ? <Modal><h2>{fineTunesContext.error}</h2><Link to="/apikeys">Click here to see API keys and profiles</Link></Modal> : null}
         {fineTunesContext.loading ? <Modal><h2>{fineTunesContext.currentModel !== '' ? "Processing..." : "Asking for models"}</h2><br /><PuffLoader color="#fff" /></Modal> : null}
 
         <div className="header-bar"><Header /></div>
@@ -93,7 +95,7 @@ export default function FineTunes() {
                 </div>
             </div>
 
-            <div style={{ height: "calc(100% - 200px)", padding: "1rem" }}>
+            <div style={{ height: "calc(100% - 40px)", padding: "1rem" }}>
                 <h5>JSONL</h5>
 
                 <div className="ft-jsol-data">

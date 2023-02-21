@@ -18,7 +18,7 @@ export class ApiProvider extends React.PureComponent<any> {
 
         const api: any = this.setDefault(items, -1);
         localStorage.setItem("gpt_apis", JSON.stringify(items));
-        this.state = Object.assign({}, this.state, { apis: items, defaultApi: api, currentApiKeyName: api.name, configOverrides: ApiKeys.length > 0 ? true : false });
+        this.state = Object.assign({}, this.state, { apis: items, defaultApi: api, currentApiKeyName: api?.name || '', configOverrides: ApiKeys.length > 0 ? true : false });
     }
 
     addApiKey = (name: string, key: string, service: typeof OPENAI | typeof AZURE, defaultService: boolean, modelUrl: string) => {

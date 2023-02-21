@@ -36,7 +36,7 @@ export class GptProvider extends React.PureComponent<any> {
         apiAdapter.models(key, modelUrl).then(res => {
             this.setState({ loading: false, models: res });
         }).catch((err: any) => {
-            this.setState({ loading: false, error: "Failed to load models. Check API key" })
+            this.setState({ loading: false, error: "Failed to load models. Check API profile" })
         });
     }
 
@@ -82,7 +82,7 @@ export class GptProvider extends React.PureComponent<any> {
     }
 
     setError = (message: string) => {
-        this.setState({ error: message });
+        this.setState({ error: message, loading: false });
     }
 
     setCurrentFormat = (format: string) => {

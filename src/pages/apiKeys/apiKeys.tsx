@@ -45,10 +45,10 @@ export default function ApiKeys() {
             <div className="panel">
 
                 <div className="block">
-                    <h3>API Keys</h3>
+                    <h3>API profiles</h3>
                     {apiContext.apis.length === 0 ? <span>No API Keys have been added. Add a new one using an account from <a href="https://platform.openai.com/account/api-keys" target="_blank" rel="noreferrer">OpenAI</a> or the <a href="https://azure.microsoft.com/en-us/products/cognitive-services/openai-service" target="_blank" rel="noreferrer">Azure OpenAI Service</a> and complete the section below.</span> :
                         <>
-                            <p>These are the current API Profiles</p>
+                            <p>These are the current API keys</p>
                             <div className='delete-form'>
                                 <label>Profile Name</label>
                                 <label>Key</label>
