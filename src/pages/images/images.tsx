@@ -16,12 +16,10 @@ import PuffLoader from "react-spinners/PuffLoader";
 
 import Header from '../../core/ui/header';
 
-import { useGptContext } from '../../hooks/useGptContext';
 import { ApiContext } from '../../context/apiContext';
 
 export default function Images() {
 
-    const gptContext: any = useGptContext();
     const apiContext: any = React.useContext(ApiContext);
     const imageContext: any = React.useContext(ImageContext);
 
