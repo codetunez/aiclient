@@ -16,14 +16,14 @@ export class ApiProvider extends React.PureComponent<any> {
             if (i > -1) { items[index] = ApiKeys[index]; } else { items.push(ApiKeys[index]); }
         }
 
-        const api = this.setDefault(items, -1);
+        const api: any = this.setDefault(items, -1);
         localStorage.setItem("gpt_apis", JSON.stringify(items));
-        this.state = Object.assign({}, this.state, { apis: items, defaultApi: api, currentApiName: api?.name, configOverrides: ApiKeys.length > 0 ? true : false });
+        this.state = Object.assign({}, this.state, { apis: items, defaultApi: api, currentApiKeyName: api.name, configOverrides: ApiKeys.length > 0 ? true : false });
     }
 
-    addApiKey = (name: string, key: string, service: typeof OPENAI | typeof AZURE, defaultService: boolean, instance: string) => {
+    addApiKey = (name: string, key: string, service: typeof OPENAI | typeof AZURE, defaultService: boolean, modelUrl: string) => {
         let newState: Array<ApiKey> = this.state.apis.slice();
-        newState.push({ name, key, service, default: defaultService, instance })
+        newState.push({ name, key, service, default: defaultService, modelUrl })
         const api = this.setDefault(newState, defaultService ? newState.length - 1 : -1);
         localStorage.setItem("gpt_apis", JSON.stringify(newState));
         this.setState({ apis: newState, defaultApi: api || {} })
@@ -89,17 +89,17 @@ export class ApiProvider extends React.PureComponent<any> {
     }
 
     getCurrentApiKey = () => {
-        return this.getApiKey(this.state.currentApiName);
+        return this.getApiKey(this.state.currentApiKeyName);
     }
 
     setCurrentApiKeyName = (name: string) => {
-        this.setState({ currentApiName: name })
+        this.setState({ currentApiKeyName: name })
     }
 
     state: any = {
         apis: [],
         defaultApi: {},
-        currentApiName: '',
+        currentApiKeyName: '',
         configOverrides: false,
         addApiKey: this.addApiKey,
         deleteApiKey: this.deleteApiKey,

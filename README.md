@@ -61,7 +61,7 @@ API keys can be provided in code and will override any added through the UX wher
         name: "Open AI #1",
         key: "sk-7fh398fhd959dl295kf34kfzdsjfk32jfk25ddnndf445344",
         service: "openai",
-        instance: null
+        modelUrl: null
    }]
    ```
 
@@ -73,5 +73,5 @@ API keys can be provided in code and will override any added through the UX wher
    | **name**    | String  | A friendly name for the API Key |   
    | **key**     | String  | The secret key from OpenAI or Azure |
    | **service** | String  | The service for the API key. Only valid values are **azure** or **openai** |
-   | **instance**| String  | If using the Azure API service, an instance name is required. This can be obtained from the deployed model e.g. https://__instance__.openai.azure.com/openai/deployments/davinci. If using the OpenAI service, this should be set to null|
+   | **modelUrl**| String  | If using the Azure API service, the modelUrl is required e.g. https://instance.openai.azure.com/openai/deployments/davinci. If using the OpenAI service, this should be set to null|
 

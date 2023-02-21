@@ -53,7 +53,7 @@ export default function Prompts() {
           <h3>Prompt</h3>
           <div className='btn-bar'>
             <div>API Profile</div>
-            <Combo items={apis} value={apiContext.currentApiName} onChange={(e: any) => { apiContext.setCurrentApiKeyName(e.target.value) }} />
+            <Combo items={apis} value={apiContext.currentApiKeyName} onChange={(e: any) => { apiContext.setCurrentApiKeyName(e.target.value) }} />
             <button className='button-primary' onClick={() => gptContext.newQuery()}>New</button>
           </div>
         </div>

@@ -88,7 +88,7 @@ export default function FineTunes() {
                     <h3>Fine-Tunes</h3>
                     <div className='btn-bar'>
                         <div>API Profile</div>
-                        <Combo items={apis} value={apiContext.currentApiName} onChange={(e: any) => { apiContext.setCurrentApiKeyName(e.target.value) }} />
+                        <Combo items={apis} value={apiContext.currentApiKeyName} onChange={(e: any) => { apiContext.setCurrentApiKeyName(e.target.value) }} />
                     </div>
                 </div>
             </div>

@@ -8,10 +8,11 @@ import { useGptContext } from '../../hooks/useGptContext';
 export default function QueryInput() {
 
     const gptContext: any = useGptContext();
-    const [executeQuery,,] = useGptQuery();
+    const [executeQuery, ,] = useGptQuery();
     const [models, setModels] = React.useState([]);
 
     React.useEffect(() => {
+        if (!gptContext.models) { return; }
         const items = gptContext.models && gptContext.models.map((element: any) => {
             return { name: element.id, value: element.id }
         })
@@ -22,8 +23,10 @@ export default function QueryInput() {
         <textarea placeholder='Ask a question' name="query" value={gptContext.currentPrompt || ''} onChange={(e: any) => { gptContext.setCurrentPrompt(e.target.value) }}></textarea>
         <div className="panel-toolbar">
             <div className='btn-bar'>
-                <div>Model</div>
-                <Combo items={models} value={gptContext.currentModel} onChange={(e: any) => { gptContext.setCurrentModel(e.target.value) }} />
+                {gptContext.models ? <>
+                    <div>Model</div>
+                    <Combo items={models} value={gptContext.currentModel} onChange={(e: any) => { gptContext.setCurrentModel(e.target.value) }} />
+                </> : null}
                 <div>Temperature</div>
                 <input type="number" min={0} max={1000} maxLength={4} name="currentTemperature" value={gptContext.currentTemperature} onChange={(e: any) => { gptContext.setCurrentTemperature(e.target.value) }} />
                 <div>Max tokens</div>

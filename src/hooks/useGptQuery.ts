@@ -38,7 +38,7 @@ export const useGptQuery = () => {
     const apiKey: ApiKey = apiContext.getCurrentApiKey();
     if (apiKey) {
       const adapter: IApiAdapter = adapters.get(apiKey.service);
-      gptContext.fetchModels(adapter, apiKey.key);
+      gptContext.fetchModels(adapter, apiKey.key, apiKey.modelUrl);
     } else {
       gptContext.setError("Failed to load models. Check API key")
     }
@@ -49,7 +49,7 @@ export const useGptQuery = () => {
     if (Object.keys(gptContext).length === 0) { return; }
     const apiKey: ApiKey = apiContext.getCurrentApiKey();
     const adapter: IApiAdapter = adapters.get(apiKey.service);
-    gptContext.executeQuery(adapter, apiKey.key);
+    gptContext.executeQuery(adapter, apiKey.key, apiKey.modelUrl);
   }
 
   // This will combine the API key, service and a Image Prompt execution
@@ -57,14 +57,14 @@ export const useGptQuery = () => {
     if (Object.keys(imageContext).length === 0) { return; }
     const apiKey: ApiKey = apiContext.getCurrentApiKey();
     const adapter: IApiAdapter = adapters.get(apiKey.service);
-    imageContext.executeQuery(adapter, apiKey.key);
+    imageContext.executeQuery(adapter, apiKey.key, apiKey.modelUrl);
   }
 
   const fetchModels = () => {
     if (Object.keys(gptContext).length === 0) { return; }
     const apiKey: ApiKey = apiContext.getCurrentApiKey();
     const adapter: IApiAdapter = adapters.get(apiKey.service);
-    gptContext.fetchModels(adapter, apiKey.key);
+    gptContext.fetchModels(adapter, apiKey.key, apiKey.modelUrl);
   }
 
   return [executeQuery, executeImageQuery, fetchModels];

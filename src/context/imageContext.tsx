@@ -16,10 +16,10 @@ export class ImageProvider extends React.PureComponent<any> {
         this.state = Object.assign({}, this.state, { loading: false, queryHistory: JSON.parse(payload || "[]") });
     }
 
-    fetchModels = async (apiAdapter: IApiAdapter, key: string) => {
+    fetchModels = async (apiAdapter: IApiAdapter, key: string, modelUrl: string) => {
         this.setState({ loading: true });
 
-        apiAdapter.models(key).then(res => {
+        apiAdapter.models(key, modelUrl).then(res => {
             this.setState({ loading: false, models: res });
         }).catch((err: any) => {
             this.setState({ loading: false, error: "Failed to load models. Check API key" })
@@ -39,7 +39,7 @@ export class ImageProvider extends React.PureComponent<any> {
         this.setState(state);
     }
 
-    executeQuery = async (apiAdapter: IApiAdapter, key: string) => {
+    executeQuery = async (apiAdapter: IApiAdapter, key: string, modelUrl: string) => {
         this.setState({ loading: true });
 
         const completionRequest = Object.assign({}, this.defaultQueryProfile,
@@ -50,7 +50,7 @@ export class ImageProvider extends React.PureComponent<any> {
                 n: this.state.currentCount
             });
 
-        const query = await apiAdapter.completionsImages(completionRequest, key);
+        const query = await apiAdapter.completionsImages(completionRequest, key, modelUrl);
 
         const newHistory = this.state.queryHistory.slice();
         newHistory.push(query);

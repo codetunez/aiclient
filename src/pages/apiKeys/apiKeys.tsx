@@ -15,11 +15,11 @@ export default function ApiKeys() {
     const [key, setKey] = React.useState('');
     const [service, setService] = React.useState(OPENAI);
     const [defaultService, setDefaultService] = React.useState(false);
-    const [instanceName, setInstanceName] = React.useState(null);
+    const [modelUrl, setModelUrl] = React.useState(null);
     const [apis, setApis] = React.useState([]);
 
     const _save = () => {
-        apiContext.addApiKey(name, key, service, defaultService, instanceName);
+        apiContext.addApiKey(name, key, service, defaultService, modelUrl);
     }
 
     const _reset = () => {
@@ -28,7 +28,7 @@ export default function ApiKeys() {
         setKey('');
         setService(OPENAI);
         setDefaultService(false);
-        setInstanceName(null);
+        setModelUrl(null);
     }
 
     React.useEffect(() => {
@@ -61,7 +61,7 @@ export default function ApiKeys() {
                         return <div key={key.name} className='delete-form'>
                             <input type="text" value={key.name} readOnly={true} />
                             <input type="text" value={key.key} readOnly={true} />
-                            <input type="text" value={key.service + (key.instance !== undefined && key.instance ? ` (${key.instance})` : '')} readOnly={true} />
+                            <input type="text" value={key.service + (key.modelUrl !== undefined && key.modelUrl ? ` (${key.modelUrl})` : '')} readOnly={true} />
                             <input type="text" value={key.default ? 'Yes' : 'No'} readOnly={true} />
                             <button className='button-primary' onClick={() => apiContext.deleteApiKey(key)}>Delete</button>
                         </div>
@@ -83,7 +83,7 @@ export default function ApiKeys() {
                     </div>
 
                     {service !== AZURE ? null : <>
-                        <label>AzureAI Instance name</label>
+                        <label>AzureAI fully qualified model Url </label>
                         <input type="text" value={key} onChange={(e: any) => setKey(e.target.value)} />
                     </>}
 
@@ -100,9 +100,9 @@ export default function ApiKeys() {
                     <>
                         <div className="block">
                             <h3>Set current API profile for application</h3>
-                            <p>Use this if the application cannot load models or fine-tunes for the current set API profile. Current API profile is <b>{apiContext.currentApiName}</b></p>
-                            <label>Change to this API profile</label>
-                            <Combo items={apis} value={apiContext.currentApiName} onChange={(e: any) => { apiContext.setCurrentApiKeyName(e.target.value) }} />
+                            <p>Use this if the application cannot load models or fine-tunes for the current set API profile. Current API profile selected is <b>{apiContext.currentApiKeyName}</b></p>
+                            <label>Change selected API profile</label>
+                            <Combo items={apis} value={apiContext.currentApiKeyName} onChange={(e: any) => { apiContext.setCurrentApiKeyName(e.target.value) }} />
                         </div>
 
                         <div className="block">

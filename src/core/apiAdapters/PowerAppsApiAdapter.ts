@@ -10,9 +10,9 @@ import { AZURE } from "../../config";
 
 export class PowerAppsApiAdapter implements IApiAdapter {
 
-    async completions(queryProfile: IQueryProfile, key: string): Promise<IQuery> {
+    async completions(queryProfile: IQueryProfile, key: string, modelUrl: string): Promise<IQuery> {
 
-        const configuration = new Configuration({ basePath: "https://openai-powerapps.openai.azure.com/openai/deployments/davinci", });
+        const configuration = new Configuration({ basePath: modelUrl });
         const openai = new OpenAIApi(configuration);
 
         const query: IQuery = {
@@ -38,7 +38,7 @@ export class PowerAppsApiAdapter implements IApiAdapter {
             query.cost = estimateCost(query.tokens, res.data.model);
         }
         catch (err) {
-            console.error('OpenAIApiAdapter::completions', err);
+            console.error('PowerAppsApiAdapter::completions', err);
             query.errors = err;
         }
         finally {
@@ -48,13 +48,13 @@ export class PowerAppsApiAdapter implements IApiAdapter {
         return query;
     }
 
-    async models(key: string): Promise<any> {
-        throw new Error('Not implemented');
+    async models(key: string, modelUrl: string): Promise<any> {
+        console.log('Azure requests are model based. No models to load')
     }
-    
-    async completionsImages(queryProfile: IImageQueryProfile, key: string): Promise<IImageQuery> {
 
-        const configuration = new Configuration({ basePath: "https://openai-powerapps.openai.azure.com/openai/deployments/davinci", });
+    async completionsImages(queryProfile: IImageQueryProfile, key: string, modelUrl: string): Promise<IImageQuery> {
+
+        const configuration = new Configuration({ basePath: modelUrl});
         const openai = new OpenAIApi(configuration);
 
         const query: IImageQuery = {
@@ -76,7 +76,7 @@ export class PowerAppsApiAdapter implements IApiAdapter {
             query.cost = estimateImageCost(query.queryProfile.size, query.queryProfile.n);
         }
         catch (err) {
-            console.error('OpenAIApiAdapter::completionsImage', err);
+            console.error('PowerAppsApiAdapter::completionsImage', err);
             query.errors = err;
         }
         finally {

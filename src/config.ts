@@ -8,7 +8,7 @@ export interface ApiKey {
     name: string,
     key: string,
     service: typeof AZURE | typeof OPENAI,
-    instance: string | null
+    modelUrl: string | null
 }
 
 /* To configure ApiKeys in code follow instructions in README.md */

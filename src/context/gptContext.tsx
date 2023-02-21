@@ -30,17 +30,17 @@ export class GptProvider extends React.PureComponent<any> {
         this.setState(state);
     }
 
-    fetchModels = async (apiAdapter: IApiAdapter, key: string) => {
+    fetchModels = async (apiAdapter: IApiAdapter, key: string, modelUrl: string) => {
         this.setState({ loading: true });
 
-        apiAdapter.models(key).then(res => {
+        apiAdapter.models(key, modelUrl).then(res => {
             this.setState({ loading: false, models: res });
         }).catch((err: any) => {
             this.setState({ loading: false, error: "Failed to load models. Check API key" })
         });
     }
 
-    executeQuery = async (apiAdapter: IApiAdapter, key: string) => {
+    executeQuery = async (apiAdapter: IApiAdapter, key: string, modelUrl: string) => {
         this.setState({ loading: true });
 
         const completionRequest = Object.assign({}, this.defaultQueryProfile,
@@ -51,7 +51,7 @@ export class GptProvider extends React.PureComponent<any> {
                 max_tokens: this.state.currentMaxTokens
             });
 
-        const query = await apiAdapter.completions(completionRequest, key);
+        const query = await apiAdapter.completions(completionRequest, key, modelUrl);
 
         const newHistory = this.state.queryHistory.slice();
         newHistory.push(query);
