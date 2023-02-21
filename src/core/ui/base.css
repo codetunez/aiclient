@@ -26,6 +26,11 @@ a {
     color: lightgray;
 }
 
+.sub-error {
+    width: 50%;
+    text-align: center;
+}
+
 /* shell */
 
 .shell {

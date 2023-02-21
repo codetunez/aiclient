@@ -48,7 +48,7 @@ export default function ApiKeys() {
                     <h3>API profiles</h3>
                     {apiContext.apis.length === 0 ? <span>No API Keys have been added. Add a new one using an account from <a href="https://platform.openai.com/account/api-keys" target="_blank" rel="noreferrer">OpenAI</a> or the <a href="https://azure.microsoft.com/en-us/products/cognitive-services/openai-service" target="_blank" rel="noreferrer">Azure OpenAI Service</a> and complete the section below.</span> :
                         <>
-                            <p>These are the current API keys</p>
+                            <p>These are the current API keys. To modify, delete and re-create</p>
                             <div className='delete-form'>
                                 <label>Profile Name</label>
                                 <label>Key</label>
@@ -70,13 +70,13 @@ export default function ApiKeys() {
                 </div>
 
                 <div className="block">
-                    <h5>Add a new API Key</h5>
-                    <p>API keys are stored in local storage and will need to be re-entered on all devices</p>
+                    <h5>Add a new API profile</h5>
+                    <p>API profiles are stored in local storage and will need to be re-entered on all devices</p>
                     <label>Profile Name</label>
                     <input type="text" value={name} onChange={(e: any) => setName(e.target.value)} />
-                    <label>Key</label>
+                    <label>API Key/Secret</label>
                     <input type="text" value={key} onChange={(e: any) => setKey(e.target.value)} />
-                    <label>Service</label>
+                    <label>Hosting service</label>
                     <div className="radio-group">
                         <input name="service" type="radio" defaultChecked={service === OPENAI ? true : false} onClick={() => setService('openai')} /><span>Open AI</span>
                         <input name="service" type="radio" defaultChecked={service === AZURE ? true : false} onClick={() => setService('azure')} /><span>Azure</span>
@@ -87,7 +87,7 @@ export default function ApiKeys() {
                         <input type="text" value={key} onChange={(e: any) => setKey(e.target.value)} />
                     </>}
 
-                    <label>Default </label>
+                    <label>Default profile</label>
                     <div className="radio-group">
                         <input name="default" type="radio" defaultChecked={defaultService} onClick={() => setDefaultService(true)} /><span>Yes (Overrides current)</span>
                         <input name="default" type="radio" defaultChecked={!defaultService} onClick={() => setDefaultService(false)} /><span>No</span>

@@ -6,6 +6,8 @@ export const FineTunesContext = React.createContext({});
 export class FineTunesProvider extends React.PureComponent<any> {
 
     initialize = (key: string) => {
+        this.setState({ loading: true });
+        
         let files: any = null;
         axios('https://api.openai.com/v1/files', { headers: { "Authorization": "Bearer " + key } })
             .then((res: any) => {
@@ -16,7 +18,7 @@ export class FineTunesProvider extends React.PureComponent<any> {
                 this.setState({ files: files.data, fineTunes: res.data.data, loading: false, key })
             })
             .catch((err: any) => {
-                this.setState({ loading: false, error: "Failed to load files or fine-tunes. Check API profile" })
+                this.setState({ loading: false, error: "Failed to load files or fine-tunes. Check API profile", subError: err?.response?.data?.error?.message || null })
             })
     }
 
