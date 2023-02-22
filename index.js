@@ -2,7 +2,7 @@
 var express = require('express')
 
 var app = express()
-var port = 3000
+var port = 8080
 
 app.use(express.static('build'));
 app.get('*', (req, res) => res.sendFile(path.resolve(__dirname + '/build/index.html')));
