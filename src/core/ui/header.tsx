@@ -10,7 +10,7 @@ const leftItems = [
 ]
 
 const rightItems = [
-    { name: "API Keys", path: "/apikeys" }
+    { name: "API profiles", path: "/apikeys" }
 ]
 
 export default function Header() {

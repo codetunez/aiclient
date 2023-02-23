@@ -1,8 +1,7 @@
 import './results.css';
-import React from 'react';
 import Editor from "@monaco-editor/react";
 
-import { GptContext } from '../../context/gptContext';
+import { useGptContext } from '../../hooks/useGptContext';
 import { Combo } from "../../core/ui/controls";
 
 const languageOptions = [
@@ -19,7 +18,7 @@ const languageOptions = [
 
 export default function Results() {
 
-    const gptContext: any = React.useContext(GptContext);
+    const gptContext: any = useGptContext();
 
     return <div className="results">
         <div className='results-editor'>

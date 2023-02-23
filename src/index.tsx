@@ -7,6 +7,7 @@ import {
 import { GptProvider } from './context/gptContext';
 import { FineTunesProvider } from './context/fineTunesContext';
 import { ImageProvider } from './context/imageContext';
+import { ApiProvider } from './context/apiContext';
 
 import './index.css';
 
@@ -18,19 +19,19 @@ import Images from './pages/images/images';
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <GptProvider><Prompts /></GptProvider>
+    element: <ApiProvider><GptProvider><Prompts /></GptProvider></ApiProvider>
   },
   {
     path: "images",
-    element: <GptProvider><ImageProvider><Images /></ImageProvider></GptProvider>
+    element: <ApiProvider><GptProvider><ImageProvider><Images /></ImageProvider></GptProvider></ApiProvider>
   },
   {
     path: "finetunes",
-    element: <FineTunesProvider><FineTunes /></FineTunesProvider>
+    element: <ApiProvider><FineTunesProvider><FineTunes /></FineTunesProvider></ApiProvider>
   },
   {
     path: "apikeys",
-    element: <GptProvider><ApiKeys /></GptProvider>
+    element: <ApiProvider><ApiKeys /></ApiProvider>
   }
 ]
 );

@@ -1,6 +1,8 @@
 import './history.css';
 import React from 'react';
-import { GptContext } from '../../context/gptContext';
+
+import { useGptContext } from '../../hooks/useGptContext';
+
 import { ExportHistory } from '../../components/exportHistory';
 import { ImportHistory } from '../../components/importHistory';
 import { GenerateReport } from '../../components/exportReport';
@@ -8,7 +10,7 @@ import IQuery from '../../core/entities/IQuery';
 
 export default function History() {
 
-    const gptContext: any = React.useContext(GptContext);
+    const gptContext: any = useGptContext();
 
     const history = React.useMemo(() => {
         return gptContext.queryHistory.slice().reverse();

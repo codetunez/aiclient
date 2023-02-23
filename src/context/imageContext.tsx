@@ -1,16 +1,10 @@
 import * as React from 'react';
-import { OpenAIApiAdapter } from '../core/apiAdapters/OpenAIApiAdapter';
+
 import { IApiAdapter } from '../core/apiAdapters/IApiAdapter';
 import IImageQueryProfile from '../core/entities/IImageQueryProfile';
 import IImageQuery from '../core/entities/IImageQuery';
-import { PowerAppsApiAdapter } from '../core/apiAdapters/PowerAppsApiAdapter';
 
 export const ImageContext = React.createContext({});
-
-// TODO: this will be refactored as part of API Keys screen
-const apiMappings = new Map();
-apiMappings.set("Public Api", new OpenAIApiAdapter());
-apiMappings.set("Power Apps Api", new PowerAppsApiAdapter());
 
 export class ImageProvider extends React.PureComponent<any> {
 
@@ -19,20 +13,22 @@ export class ImageProvider extends React.PureComponent<any> {
     constructor(props: any) {
         super(props)
         const payload: any = localStorage.getItem("gpt_history_images");
-        const apiAdapter: IApiAdapter = new OpenAIApiAdapter();
+        this.state = Object.assign({}, this.state, { loading: false, queryHistory: JSON.parse(payload || "[]") });
+    }
 
-        apiAdapter.models().then(res => {
-            this.newQuery({ loading: false, models: res, queryHistory: JSON.parse(payload || "[]"), apis: ["Public Api", "Power Apps Api"] });
+    fetchModels = async (apiAdapter: IApiAdapter, key: string, modelUrl: string) => {
+        this.setState({ loading: true });
+
+        apiAdapter.models(key, modelUrl).then(res => {
+            this.setState({ loading: false, models: res });
         }).catch((err: any) => {
-            this.setState({ loading: false, error: "Failed to load models. Check API key" })
+            this.setState({ loading: false, error: "Failed to load models. Check API profile", subError: err?.response?.data?.error?.message || null })
         });
     }
 
     newQuery = (options?: any) => {
-
         const state = Object.assign({}, {
             currentPrompt: "",
-            currentApi: "Public Api",
             currentFormat: this.defaultQueryProfile.response_format,
             currentSize: this.defaultQueryProfile.size,
             currentCount: this.defaultQueryProfile.n,
@@ -43,14 +39,9 @@ export class ImageProvider extends React.PureComponent<any> {
         this.setState(state);
     }
 
-    executeQuery = async () => {
-
-        const key: string = this.state.currentApi;
-        const apiAdapter: IApiAdapter = apiMappings.get(key); //new OpenAIApiAdapter();
-
+    executeQuery = async (apiAdapter: IApiAdapter, key: string, modelUrl: string) => {
         this.setState({ loading: true });
 
-        // set up the initial query
         const completionRequest = Object.assign({}, this.defaultQueryProfile,
             {
                 prompt: this.state.currentPrompt,
@@ -59,7 +50,7 @@ export class ImageProvider extends React.PureComponent<any> {
                 n: this.state.currentCount
             });
 
-        const query = await apiAdapter.completionsImages(completionRequest);
+        const query = await apiAdapter.completionsImages(completionRequest, key, modelUrl);
 
         const newHistory = this.state.queryHistory.slice();
         newHistory.push(query);
@@ -95,7 +86,6 @@ export class ImageProvider extends React.PureComponent<any> {
             currentFormat: query.queryProfile.response_format,
             currentSize: query.queryProfile.size,
             currentCount: query.queryProfile.n,
-            currentApi: query.api ?? "Public Api",
             currentQuery: Object.assign({}, query),
         });
     }
@@ -132,7 +122,6 @@ export class ImageProvider extends React.PureComponent<any> {
         currentQuery: {},
         currentPrompt: "",
         currentSize: this.defaultQueryProfile.size,
-        currentApi: "",
         currentFormat: this.defaultQueryProfile.response_format,
         currentCount: this.defaultQueryProfile.n,
         queryHistory: [],

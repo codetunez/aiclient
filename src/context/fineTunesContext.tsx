@@ -1,26 +1,24 @@
 import * as React from 'react';
 import axios from 'axios';
 
-import { OPEN_AI_KEY } from '../config';
-
 export const FineTunesContext = React.createContext({});
 
 export class FineTunesProvider extends React.PureComponent<any> {
 
-    constructor(props: any) {
-        super(props)
-
+    initialize = (key: string) => {
+        this.setState({ loading: true });
+        
         let files: any = null;
-        axios('https://api.openai.com/v1/files', { headers: { "Authorization": "Bearer " + OPEN_AI_KEY } })
+        axios('https://api.openai.com/v1/files', { headers: { "Authorization": "Bearer " + key } })
             .then((res: any) => {
                 files = res.data;
-                return axios('https://api.openai.com/v1/fine-tunes', { headers: { "Authorization": "Bearer " + OPEN_AI_KEY } })
+                return axios('https://api.openai.com/v1/fine-tunes', { headers: { "Authorization": "Bearer " + key } })
             })
             .then((res: any) => {
-                this.setState({ files: files.data, fineTunes: res.data.data, loading: false })
+                this.setState({ files: files.data, fineTunes: res.data.data, loading: false, key })
             })
             .catch((err: any) => {
-                this.setState({ loading: false, error: "Check API key" })
+                this.setState({ loading: false, error: "Failed to load files or fine-tunes. Check API profile", subError: err?.response?.data?.error?.message || null })
             })
     }
 
@@ -36,7 +34,7 @@ export class FineTunesProvider extends React.PureComponent<any> {
             method: "get",
             url: "https://api.openai.com/v1/models",
             headers: {
-                "Authorization": "Bearer " + OPEN_AI_KEY
+                "Authorization": "Bearer " + this.state.key
             }
         }
 
@@ -56,6 +54,10 @@ export class FineTunesProvider extends React.PureComponent<any> {
         this.setState({ jsonlBlob: blob, jsonlFilename: fileName, jsonl: contents })
     }
 
+    setError = (message: string) => {
+        this.setState({ error: message, loading: false });
+    }
+
     uploadJsonL = async () => {
         this.setState({ loading: true });
 
@@ -67,14 +69,14 @@ export class FineTunesProvider extends React.PureComponent<any> {
             method: "post",
             url: "https://api.openai.com/v1/files",
             headers: {
-                "Authorization": "Bearer " + OPEN_AI_KEY
+                "Authorization": "Bearer " + this.state.key
             },
             data: d
         }
 
         try {
             await axios(options);
-            const res2 = await axios('https://api.openai.com/v1/files', { headers: { "Authorization": "Bearer " + OPEN_AI_KEY } })
+            const res2 = await axios('https://api.openai.com/v1/files', { headers: { "Authorization": "Bearer " + this.state.key } })
             this.setState({ files: res2.data.data, loading: false });
         } catch (err: any) {
             console.log(err.response.data);
@@ -89,13 +91,13 @@ export class FineTunesProvider extends React.PureComponent<any> {
             method: "delete",
             url: "https://api.openai.com/v1/files/" + this.state.selectedFile.id,
             headers: {
-                "Authorization": "Bearer " + OPEN_AI_KEY
+                "Authorization": "Bearer " + this.state.key
             }
         }
 
         try {
             await axios(options);
-            const res2 = await axios('https://api.openai.com/v1/files', { headers: { "Authorization": "Bearer " + OPEN_AI_KEY } })
+            const res2 = await axios('https://api.openai.com/v1/files', { headers: { "Authorization": "Bearer " + this.state.key } })
             this.setState({ files: res2.data.data, selectedFile: null, loading: false });
         } catch (err: any) {
             console.log(err.response.data);
@@ -109,13 +111,13 @@ export class FineTunesProvider extends React.PureComponent<any> {
         const options: any = {
             method: "post",
             url: "https://api.openai.com/v1/fine-tunes",
-            headers: { "Authorization": "Bearer " + OPEN_AI_KEY },
+            headers: { "Authorization": "Bearer " + this.state.key },
             data: { "training_file": this.state.selectedFile.id, "model": model }
         }
 
         try {
             await axios(options);
-            const res2 = await axios('https://api.openai.com/v1/fine-tunes', { headers: { "Authorization": "Bearer " + OPEN_AI_KEY } })
+            const res2 = await axios('https://api.openai.com/v1/fine-tunes', { headers: { "Authorization": "Bearer " + this.state.key } })
             this.setState({ fineTuness: res2.data.data, loading: false });
         } catch (err: any) {
             console.log(err.response.data);
@@ -133,7 +135,7 @@ export class FineTunesProvider extends React.PureComponent<any> {
         const options: any = {
             method: "delete",
             url: "https://api.openai.com/v1/models/" + this.state.selectedFineTune.fine_tuned_model,
-            headers: { "Authorization": "Bearer " + OPEN_AI_KEY }
+            headers: { "Authorization": "Bearer " + this.state.key }
         }
 
         try {
@@ -152,7 +154,7 @@ export class FineTunesProvider extends React.PureComponent<any> {
         const options: any = {
             method: "get",
             url: "https://api.openai.com/v1/fine-tunes/" + this.state.selectedFineTune.id + "/events",
-            headers: { "Authorization": "Bearer " + OPEN_AI_KEY }
+            headers: { "Authorization": "Bearer " + this.state.key }
         }
 
         const res = await axios(options);
@@ -160,10 +162,12 @@ export class FineTunesProvider extends React.PureComponent<any> {
     }
 
     state: any = {
+        initialize: this.initialize,
         setSelectedFile: this.setSelectedFile,
         setSelectedFineTune: this.setSelectedFineTune,
         getEvents: this.getEvents,
         setJsonL: this.setJsonL,
+        setError: this.setError,
         uploadJsonL: this.uploadJsonL,
         deleteFile: this.deleteFile,
         createFineTune: this.createFineTune,

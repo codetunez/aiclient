@@ -9,20 +9,6 @@ A React JS client app for using OpenAI
 
 3. Register for an account from [OpenAI](https://openai.com/api/) and generate a new [API key](https://platform.openai.com/account/api-keys)
 
-## Pre-Req
-
-1. Open code file [config.ts](./src/config.ts) 
-
-2. Update the OPEN_AI_KEY varaible with a dev key 
-
-   from
-   ```
-   export const OPEN_AI_KEY = "<OpenAI developer key";
-   ```
-   to (example)
-   ```
-   export const OPEN_AI_KEY = "sk-7fh398fhd959dl295kf34kfzdsjfk32jfk25ddnndf445344";
-   ```
 ## Running in dev mode
 
 1. Open a command prompt in folder and run
@@ -59,3 +45,33 @@ To run locally in a Docker container
    ```
 
 3. Launch a Browser and goto http://localhost:3000
+
+
+## Configuring API Keys in code
+API keys can be provided in code and will override any added through the UX where the name of the API key matches. To add code level API keys
+
+1. Open code file [config.ts](./src/config.ts) 
+
+2. Add an entry to to the __ApiKeys__ array using the following example configuration
+
+   ```
+   export const ApiKeys: Array<ApiKey> = [
+   {
+        default: true,
+        name: "Open AI #1",
+        key: "sk-7fh398fhd959dl295kf34kfzdsjfk32jfk25ddnndf445344",
+        service: "openai",
+        modelUrl: null
+   }]
+   ```
+
+   Properties
+
+   | Param       | Type    | Description |   
+   |-------------|---------|------------------------------------------------------------------------------------------------------|
+   | **default** | Boolean | Set to true to use the API Key as the default API. One must be set or will be automatically selected |
+   | **name**    | String  | A friendly name for the API Key |   
+   | **key**     | String  | The secret key from OpenAI or Azure |
+   | **service** | String  | The service for the API key. Only valid values are **azure** or **openai** |
+   | **modelUrl**| String  | If using the Azure API service, the modelUrl is required e.g. https://instance.openai.azure.com/openai/deployments/davinci. If using the OpenAI service, this should be set to null|
+
