@@ -78,7 +78,7 @@ export default function FineTunes() {
 
     return <div className="shell">
 
-        {fineTunesContext.error ? <Modal><h2>{fineTunesContext.error}</h2><Link to="/apikeys">Click here to see API keys and profiles</Link><br/><h6 className="sub-error"><i>"{fineTunesContext.subError}"</i></h6></Modal> : null}
+        {fineTunesContext.error ? <Modal><h2>{fineTunesContext.error}</h2><Link to="/apikeys">Click here to see API keys and profiles</Link><br />{fineTunesContext.subError ? <h6 className="sub-error"><i>"{fineTunesContext.subError}"</i></h6> : null}</Modal> : null}
         {fineTunesContext.loading ? <Modal><h2>{fineTunesContext.currentModel !== '' ? "Processing..." : "Asking for models"}</h2><br /><PuffLoader color="#fff" /></Modal> : null}
 
         <div className="header-bar"><Header /></div>

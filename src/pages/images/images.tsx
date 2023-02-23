@@ -17,11 +17,13 @@ import PuffLoader from "react-spinners/PuffLoader";
 import Header from '../../core/ui/header';
 
 import { ApiContext } from '../../context/apiContext';
+import { GptContext } from '../../context/gptContext';
 
 export default function Images() {
 
     const apiContext: any = React.useContext(ApiContext);
     const imageContext: any = React.useContext(ImageContext);
+    const gptContext: any = React.useContext(GptContext);
 
     const [apis, setApis] = React.useState([]);
 
@@ -32,10 +34,12 @@ export default function Images() {
         setApis(items);
     }, [apiContext.apis]);
 
+    const errorContext = gptContext.error ? gptContext : imageContext;
+
     return <div className="shell">
 
-        {imageContext.error ? <Modal><h2>{imageContext.error}</h2><Link to="/apikeys">Click here to see API keys and profiles</Link><br /><h6 className="sub-error"><i>"{imageContext.subError}"</i></h6></Modal> : null}
-        {imageContext.loading ? <Modal><h2>{imageContext.currentModel !== '' ? "Asking..." : "Asking for models"}</h2><br /><PuffLoader color="#fff" /></Modal> : null}
+        {errorContext.error ? <Modal><h2>{errorContext.error}</h2><Link to="/apikeys">Click here to see API keys and profiles</Link><br />{errorContext.subError ? <h6 className="sub-error"><i>"{errorContext.subError}"</i></h6> : null}</Modal> : null}
+        {gptContext.loading ? <Modal><h2>{gptContext.currentModel !== '' ? "Asking..." : "Asking for models"}</h2><br /><PuffLoader color="#fff" /></Modal> : null}
 
         <div className="header-bar"><Header /></div>
 

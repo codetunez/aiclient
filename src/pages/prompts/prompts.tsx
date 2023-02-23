@@ -34,7 +34,7 @@ export default function Prompts() {
 
   return <div className="shell">
 
-    {gptContext.error ? <Modal><h2>{gptContext.error}</h2><Link to="/apikeys">Click here to see API keys and profiles</Link><br/><h6 className="sub-error"><i>"{gptContext.subError}"</i></h6></Modal> : null}
+    {gptContext.error ? <Modal><h2>{gptContext.error}</h2><Link to="/apikeys">Click here to see API keys and profiles</Link><br />{gptContext.subError ? <h6 className="sub-error"><i>"{gptContext.subError}"</i></h6> : null}</Modal> : null}
     {gptContext.loading ? <Modal><h2>{gptContext.currentModel !== '' ? "Asking..." : "Asking for models"}</h2><br /><PuffLoader color="#fff" /></Modal> : null}
 
     <div className="header-bar"><Header /></div>
