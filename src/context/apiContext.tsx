@@ -26,7 +26,7 @@ export class ApiProvider extends React.PureComponent<any> {
         newState.push({ name, key, service, default: defaultService, modelUrl })
         const api = this.setDefault(newState, defaultService ? newState.length - 1 : -1);
         localStorage.setItem("gpt_apis", JSON.stringify(newState));
-        this.setState({ apis: newState, defaultApi: api || {} })
+        this.setState({ apis: newState, defaultApi: api || {}, currentApiKeyName: api?.name})
     }
 
     deleteApiKey = (key: ApiKey) => {
@@ -37,7 +37,7 @@ export class ApiProvider extends React.PureComponent<any> {
         newState.splice(i, 1);
         const api = this.setDefault(newState, -1);
         localStorage.setItem("gpt_apis", JSON.stringify(newState));
-        this.setState({ apis: newState, defaultApi: api || {} })
+        this.setState({ apis: newState, defaultApi: api || {}, currentApiKeyName: api?.name })
     }
 
     clearStorage = () => {
