@@ -14,7 +14,7 @@ A React JS client app for using OpenAI
 1. Open a command prompt in folder and run
 
    ```
-   npm i && npm run start
+   npm i && npm run dev
    ```
 
 2. Browser will automatically launch at http://localhost:3000
@@ -27,7 +27,7 @@ A React JS client app for using OpenAI
    npm i && && npm run build && node index.js
    ```
 
-2. Launch a Browser and goto http://localhost:3000
+2. Launch a Browser and goto http://localhost:8080
 
 ## Running as a Docker container
 To run locally in a Docker container
@@ -41,7 +41,7 @@ To run locally in a Docker container
 2. Run the container locally
 
    ```
-   docker run --rm -d -p 3000:3000/tcp <myorg>/aiclient:latest
+   docker run --rm -d -p 3000:8080/tcp <myorg>/aiclient:latest
    ```
 
 3. Launch a Browser and goto http://localhost:3000
