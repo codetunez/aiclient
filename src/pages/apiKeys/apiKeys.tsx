@@ -15,7 +15,7 @@ export default function ApiKeys() {
     const [key, setKey] = React.useState('');
     const [service, setService] = React.useState(OPENAI);
     const [defaultService, setDefaultService] = React.useState(false);
-    const [modelUrl, setModelUrl] = React.useState(null);
+    const [modelUrl, setModelUrl] = React.useState('');
     const [apis, setApis] = React.useState([]);
 
     const _save = () => {
@@ -28,7 +28,7 @@ export default function ApiKeys() {
         setKey('');
         setService(OPENAI);
         setDefaultService(false);
-        setModelUrl(null);
+        setModelUrl('');
     }
 
     React.useEffect(() => {
@@ -84,7 +84,7 @@ export default function ApiKeys() {
 
                     {service !== AZURE ? null : <>
                         <label>AzureAI fully qualified model Url </label>
-                        <input type="text" value={key} onChange={(e: any) => setKey(e.target.value)} />
+                        <input type="text" value={modelUrl} onChange={(e: any) => setModelUrl(e.target.value)} />
                     </>}
 
                     <label>Default profile</label>
